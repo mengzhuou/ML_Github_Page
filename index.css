@@ -115,3 +115,23 @@ th {
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
+
+.reference-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.reference-table th, .reference-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.reference-table th {
+    background-color: #f2f2f2;
+}
+
+.reference-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
