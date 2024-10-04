@@ -17,7 +17,7 @@
 
     <main>
         <section id="introduction">
-            <h2>Introduction/Background</h2>
+            <h2>Introduction</h2>
             <p>Vehicle detection and classification are crucial for traffic control, management, and surveillance, but manual monitoring of traffic footage is inefficient, considering the volume of vehicles in high-traffic areas. Automated vehicle classification systems can address this problem by using machine learning algorithms to detect and categorize vehicles in real-time.</p>
 
             <h3>Literature Review</h3>
@@ -32,7 +32,35 @@
             </ul>
         </section>
 
-        <section id="Reference">
+        <section id="problem-definition">
+            <h2>Problem Definition</h2>
+            <p>In our project, we seek to identify and classify cars from an image, and also to detect their license plate. As previously covered, the uses of license plate detection and car classification range from law enforcement to traffic control. Our project seeks to improve upon existing methods.</p>
+        </section>
+
+        <section id="methods">
+            <h2>Implemented Methods</h2>
+            <p>We will resize all images to ensure consistent input dimensions, as neural networks require uniform image sizes for layers like convolution. Data augmentation (e.g., rotation, flipping, noise injection and reduction, cropping) will be applied to generate additional images, increasing the dataset size and preventing overfitting. Pixel normalization will standardize lighting conditions and ensure consistent image scales.</p>
+            <p>The Vision Transformer (ViT) requires “patches” from the input image, and thus a patch-creation pre-processing step will be required. We plan to train 2 supervised models, Convolution neural networks (CNN) and Vision transformer (ViT), and one unsupervised model, Gaussian Mixture model (GMM), for car classification.</p>
+            <ul>
+                <li>CNNs are effective in image classification due to hierarchical feature detection (e.g., edges, wheels, chassis detection) and translation invariance (e.g., different angles/location of car in images) when trained on a strong dataset.</li>
+                <li>ViT, which sequentially processes image patches using self-attention, has shown comparable performance to CNNs when trained on large datasets.</li>
+                <li>GMM will reduce our dataset’s class size of car makes/models to fewer clusters of chassis shapes (e.g., sedan, coupe, SUV), creating a more manageable dataset for training.</li>
+            </ul>
+        </section>
+
+        <section id="results-discussion">
+            <h2>Results and Discussion</h2>
+            <p>In this project, we aim to classify cars using a combination of convolutional neural networks (CNNs), vision transformers (ViT), and Gaussian Mixture Models (GMM). The evaluation of these models will rely on the following metrics:</p>
+            <ul>
+                <li><strong>Accuracy</strong>: The percentage of total correct predictions out of all predictions.</li>
+                <li><strong>Precision</strong>: The percentage of correct positive predictions (correctly identified cars) out of all positive predictions.</li>
+                <li><strong>Recall</strong>: The percentage of actual positives correctly identified by the model.</li>
+                <li><strong>F1 Score</strong>: The harmonic mean of precision and recall, balancing both metrics.</li>
+            </ul>
+            <p>We anticipate that the CNN and ViT models will perform well in terms of accuracy, given their proven track records in image classification tasks. However, the GMM model is expected to yield lower precision and recall as it clusters cars based on chassis shape rather than making exact predictions.</p>
+        </section>
+
+        <section id="reference">
             <h2>References</h2>
             <table class="reference-table">
                 <tbody>
