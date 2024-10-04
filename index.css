@@ -86,8 +86,8 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Specific Section Styling for Problem Definition, Methods, and Results */
-#introduction, #problem-definition, #methods, #results-discussion, #reference, #contribution {
+/* Section Styling */
+#introduction, #problem-definition, #methods, #results-discussion, #reference, #contribution, #gantt {
     padding: 20px 40px;
     margin: 20px auto;
     max-width: 800px;
@@ -96,7 +96,7 @@ a:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#introduction h2, #problem-definition h2, #methods h2, #results-discussion h2, #reference h2, #contribution h2 {
+#introduction h2, #problem-definition h2, #methods h2, #results-discussion h2, #reference h2, #contribution h2, #gantt h2 {
     color: #333;
     margin-bottom: 15px;
 }
