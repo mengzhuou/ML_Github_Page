@@ -20,14 +20,13 @@
             <h2>Introduction</h2>
             <p>Vehicle detection and classification are crucial for traffic control, management, and surveillance, but manual monitoring of traffic footage is inefficient, considering the volume of vehicles in high-traffic areas. Automated vehicle classification systems can address this problem by using machine learning algorithms to detect and categorize vehicles in real-time.</p><br/>
             <h3>Literature Review</h3>
-            <ul>
-                <li>Automated vehicle classification systems remain difficult to implement, considering issues such as the computational constraints of video processing, the effect of poor weather and environmental conditions, and occlusion [1]. Researchers have focused on improving vehicle detection using machine learning classifiers and deep learning methods, such as CNN-based methods, YOLO, and Vision Transformer (ViT) techniques [1], [2], [3].</li>
-            </ul>
+            <p>
+                Automated vehicle classification systems remain difficult to implement, considering issues such as the computational constraints of video processing, the effect of poor weather and environmental conditions, and occlusion [1]. Researchers have focused on improving vehicle detection using machine learning classifiers and deep learning methods, such as CNN-based methods, YOLO, and Vision Transformer (ViT) techniques [1], [2], [3].
+            </p><br/>
 
             <h3>Dataset Description</h3>
-            <ul>
-                <li>We plan to use the Stanford Cars dataset for training our models. The dataset contains 16,185 images across 196 different classes of cars, with annotations for each class describing the make, model, and year of the car.</li>
-                <li><a href="https://www.kaggle.com/datasets/jessicali9530/stanford-cars-dataset" target="_blank">Dataset Link</a></li>
+            <p>We plan to use the Stanford Cars dataset for training our models. The dataset contains 16,185 images across 196 different classes of cars, with annotations for each class describing the make, model, and year of the car. </p><br/>
+            <li><a href="https://www.kaggle.com/datasets/jessicali9530/stanford-cars-dataset" target="_blank">Dataset Link</a></li>
             </ul>
         </section>
 
@@ -43,12 +42,12 @@
 
         <section id="methods">
             <h2>Implemented Methods</h2>
-            <p>We will resize all images to ensure consistent input dimensions, as neural networks require uniform image sizes for layers like convolution. Data augmentation (e.g., rotation, flipping, noise injection and reduction, cropping) will be applied to generate additional images, increasing the dataset size and preventing overfitting. Pixel normalization will standardize lighting conditions and ensure consistent image scales.</p>
-            <p>The Vision Transformer (ViT) requires “patches” from the input image, and thus a patch-creation pre-processing step will be required. We plan to train 2 supervised models, Convolution neural networks (CNN) and Vision transformer (ViT), and one unsupervised model, Gaussian Mixture model (GMM), for car classification.</p>
+            <p>We will resize all images to ensure consistent input dimensions, as neural networks require uniform image sizes for layers like convolution. Data augmentation (e.g., rotation, flipping, noise injection and reduction, cropping) will be applied to generate additional images, increasing the dataset size and preventing overfitting [4]. Pixel normalization will standardize lighting conditions and ensure consistent image scales.</p>
+            <p>The Vision Transformer (ViT) requires “patches” from the input image, and thus a patch-creation pre-processing step will be required [5]. We plan to train 2 supervised models, Convolution neural networks (CNN) and Vision transformer (ViT), and one unsupervised model, Gaussian Mixture model (GMM), for car classification.</p>
             <ul>
-                <li>CNNs are effective in image classification due to hierarchical feature detection (e.g., edges, wheels, chassis detection) and translation invariance (e.g., different angles/location of car in images) when trained on a strong dataset.</li>
-                <li>ViT, which sequentially processes image patches using self-attention, has shown comparable performance to CNNs when trained on large datasets.</li>
-                <li>GMM will reduce our dataset’s class size of car makes/models to fewer clusters of chassis shapes (e.g., sedan, coupe, SUV), creating a more manageable dataset for training.</li>
+                <li>CNNs are effective in image classification due to hierarchical feature detection (e.g., edges, wheels, chassis detection) and translation invariance (e.g., different angles/location of car in images) when trained on a strong dataset [Source].</li>
+                <li>ViT, which sequentially processes image patches using self-attention, has shown comparable performance to CNNs when trained on large datasets [6].</li>
+                <li>GMM will reduce our dataset's class size of car makes/models to fewer clusters of chassis shapes (e.g., sedan, coupe, SUV), creating a more manageable dataset for training.</li>
             </ul>
         </section>
 
@@ -69,12 +68,27 @@
             <table class="reference-table">
                 <tbody>
                     <tr>
-                        <td>1</td>
-                        <td>S.-H. Park et al., “An All-in-One Vehicle Type and License Plate Recognition System,” Sensors, 2022, doi: 10.3390/s22030921.</td>
+                        <td>[1] S.S. Sarikan, A.M. Obayoglu, and O. Zilci, “Automated Vehicle Classification with Image Processing and Computational Intelligence,” Procedia Computer Science, vol. 114, pp. 515-522, 2017, doi: https://doi.org/10.1016/j.procs.2017.09.022.  </td>
                     </tr>
                     <tr>
-                        <td>2</td>
-                        <td>U. K. K. Pillai, D. Valles, "Vehicle Type and Color Classification," IEEE, 2020, doi: 10.1109/IEMTRONICS51293.2020.9216368.</td>
+                        <td>[2] W. Maungmai and C. Nuthong, "Vehicle Classification with Deep Learning,"2019 IEEE 4th International Conference on Computer and Communication Systems (ICCCS), Singapore, 2019, pp. 294-298, doi: 10.1109/CCOMS.2019.8821689.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>[3] Liang L, Ma H, Zhao L, Xie X, Hua C, Zhang M,and  Zhang Y, “Vehicle Detection Algorithms for Autonomous Driving: A Review”, Sensors (Basel). Vol 10, May, pp. 13-24, 2024, doi: 10.3390/s24103088.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>[4] M. Patel, “The Complete Guide to Image Preprocessing Techniques in Python,” Medium, Oct. 23, 2023. https://medium.com/@maahip1304/the-complete-guide-to-image-preprocessing-techniques-in-python-dca30804550c
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> [5] “11.8. Transformers for Vision — Dive into Deep Learning 1.0.3 documentation,” d2l.ai. https://d2l.ai/chapter_attention-mechanisms-and-transformers/vision-transformer.html
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> [6] A. A. M. Omer, “Image Classification Based on Vision Transformer,” Journal of Computer and Communications, vol. 12, no. 4, pp. 49-59, Apr. 2024, doi: https://doi.org/10.4236/jcc.2024.124005.
+                        </td>
                     </tr>
                 </tbody>
             </table>
