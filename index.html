@@ -3,48 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proposal Report</title>
+    <title>Vehicle Detection and Classification Proposal</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <header>
-        <h1>Vehicle Detection and Classification Proposal</h1>
+        <div class="header-content">
+            <h1>Vehicle Detection and Classification Proposal</h1>
+            <h3>Jiya Varma, Madeline Liu Hou, Mengzhu Ou, Nicole Hernandez Canales, Sophia Isabel Marples Rodriguez</h3>
+            <a href="https://github.com/mengzhuou/CS4641_CarClassification" class="btn" target="_blank">View on GitHub</a>
+        </div>
     </header>
 
-    <section id="introduction">
-        <h2>Introduction/Background</h2>
-        <p><strong>Primary: Madeline, Secondary: </strong></p>
-        <p>Vehicle detection and classification are crucial for traffic control, management, and surveillance, but manual monitoring of traffic footage is inefficient, considering the volume of vehicles in high-traffic areas. Automated vehicle classification systems can address this problem by using machine learning algorithms to detect and categorize vehicles in real-time.</p>
+    <main>
+        <section id="introduction">
+            <h2>Introduction/Background</h2>
+            <p><strong>Primary: Madeline, Secondary: </strong></p>
+            <p>Vehicle detection and classification are crucial for traffic control, management, and surveillance, but manual monitoring of traffic footage is inefficient, considering the volume of vehicles in high-traffic areas. Automated vehicle classification systems can address this problem by using machine learning algorithms to detect and categorize vehicles in real-time.</p>
 
-        <h3>✅ Literature Review</h3>
-        <p>Automated vehicle classification systems remain difficult to implement, considering issues such as the computational constraints of video processing, the effect of poor weather and environmental conditions, and occlusion [1]. Researchers have focused on improving vehicle detection using machine learning classifiers and deep learning methods, such as CNN-based methods, YOLO, and Vision Transformer (ViT) techniques [1], [2], [3].</p>
+            <h3>✅ Literature Review</h3>
+            <p>Automated vehicle classification systems remain difficult to implement, considering issues such as the computational constraints of video processing, the effect of poor weather and environmental conditions, and occlusion [1]. Researchers have focused on improving vehicle detection using machine learning classifiers and deep learning methods, such as CNN-based methods, YOLO, and Vision Transformer (ViT) techniques [1], [2], [3].</p>
 
-        <h3>✅ Dataset Description</h3>
-        <p>We plan to use the Stanford Cars dataset for training our models. The dataset contains 16,185 images across 196 different classes of cars, with annotations for each class describing the make, model, and year of the car.</p>
-        <p>✅ <a href="https://www.kaggle.com/datasets/jessicali9530/stanford-cars-dataset" target="_blank">Dataset Link</a></p>
-    </section>
-
-    <section id="problem-definition">
-        <h2>Problem Definition</h2>
-        <p><strong>Primary: Sophia, Secondary: Mengzhu Ou</strong></p>
-        <h3>✅ Problem</h3>
-        <p>Our project aims to identify and classify cars from images, and also to detect their license plates. The uses of license plate detection and car classification range from law enforcement to traffic control.</p>
-        <h3>✅ Motivation</h3>
-        <p>Our project seeks to improve upon existing methods by leveraging state-of-the-art techniques such as CNN and Vision Transformer for car classification.</p>
-    </section>
-
-    <section id="methods">
-        <h2>Methods</h2>
-        <p><strong>Primary: Jiya, Secondary: Mengzhu Ou</strong></p>
-        <p>We will employ image resizing, data augmentation, and pixel normalization in our preprocessing steps. We plan to train two supervised models: CNN and Vision Transformer (ViT), and one unsupervised model: Gaussian Mixture Model (GMM).</p>
-    </section>
-
-    <section id="results-discussion">
-        <h2>Potential Results and Discussion</h2>
-        <p><strong>Primary: Nicole, Secondary: Mengzhu Ou</strong></p>
-        <p>We will evaluate our models using the following metrics: Accuracy, Precision, Recall, and F1 Score.</p>
-        <p>We expect the CNN and ViT models to perform well in terms of accuracy, while GMM will provide a more clustered approach, categorizing cars by chassis shapes.</p>
-    </section>
+            <h3>✅ Dataset Description</h3>
+            <p>We plan to use the Stanford Cars dataset for training our models. The dataset contains 16,185 images across 196 different classes of cars, with annotations for each class describing the make, model, and year of the car.</p>
+            <p>✅ <a href="https://www.kaggle.com/datasets/jessicali9530/stanford-cars-dataset" target="_blank">Dataset Link</a></p>
+        </section>
+    </main>
 
     <footer>
         <h2>References</h2>
