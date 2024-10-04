@@ -87,8 +87,8 @@ a:hover {
 }
 
 /* Specific Section Styling for Problem Definition, Methods, and Results */
-#problem-definition, #methods, #results-discussion, #reference, #contribution {
-    padding: 20px 40px; /* Adds padding similar to Introduction */
+#introduction, #problem-definition, #methods, #results-discussion, #reference, #contribution {
+    padding: 20px 40px;
     margin: 20px auto;
     max-width: 800px;
     background-color: white;
@@ -96,12 +96,12 @@ a:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#problem-definition h2, #methods h2, #results-discussion h2, #reference h2, #contribution h2 {
+#introduction h2, #problem-definition h2, #methods h2, #results-discussion h2, #reference h2, #contribution h2 {
     color: #333;
     margin-bottom: 15px;
 }
 
-#methods ul, #results-discussion ul, #reference ul {
+#introduction ul, #methods ul, #results-discussion ul, #reference ul {
     padding-left: 40px;
 }
 
@@ -128,7 +128,7 @@ tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-/* Styling for Reference Table */
+/* Reference Table */
 .reference-table {
     width: 100%;
     border-collapse: collapse;
