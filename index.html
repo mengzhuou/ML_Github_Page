@@ -48,11 +48,11 @@
             <p>Our residual block contains 2x convolution (with rectified linear unit, or ReLu activation) + batch norm blocks such that the input tensor is added to the result of the second convolution output, and then finally passes through a ReLu activation before being returned.</p>
             <br>
             <p>The current architecture of our ResNet Model is as follows:
-            [input tensor -> data augmentation layers -> initial convolution -> batch norm -> activation -> residual block 1 -> residual block 2 -> residual block 3 -> global average pooling -> flatten -> dense layer (with softmax)] [10][11][12]</p>
+            [input tensor -> data augmentation layers -> initial convolution -> batch norm -> activation -> residual block 1 -> residual block 2 -> residual block 3 -> global average pooling -> flatten -> dense layer (with softmax)] [9][10][11]</p>
             <br>
-            <p>We increase the filter size between each residual block to capture more complex features of our car image dataset, (theoretically) such as chassis shape or car brand logos [9]. To offset the computational cost of increased number of feature maps and maintain uniform dimensions, we employ a projection or bottleneck convolution layer with a 1x1 kernel size that ensures that the number of channels/depth of the input matches the # of channels of the residual block's second convolution's output [15].</p>
+            <p>We increase the filter size between each residual block to capture more complex features of our car image dataset, (theoretically) such as chassis shape or car brand logos [8]. To offset the computational cost of increased number of feature maps and maintain uniform dimensions, we employ a projection or bottleneck convolution layer with a 1x1 kernel size that ensures that the number of channels/depth of the input matches the # of channels of the residual block's second convolution's output [14].</p>
             <br>
-            <p>We also employ Sparse Categorical cross entropy as our loss function as it allows direct indexing of class labels rather than requiring one-hot encoding, which is helpful for our pipeline as we have a large class size of 48 [14]. Additionally, we opted to use 'adam' (adaptive moment estimator) as our optimizer as it allows more flexibility in adjusting learning rates based on how large/small the gradients are. We have found that 'adam' is a good first choice due to its faster convergence speed and applicability to several problems without extensive need for hyperparameter tuning [13]. However, we plan to run several hyperparameter tuning experiments with various optimizers, learning rates, momentum decay, etc in order to improve our model performance.</p>
+            <p>We also employ Sparse Categorical cross entropy as our loss function as it allows direct indexing of class labels rather than requiring one-hot encoding, which is helpful for our pipeline as we have a large class size of 48 [13]. Additionally, we opted to use 'adam' (adaptive moment estimator) as our optimizer as it allows more flexibility in adjusting learning rates based on how large/small the gradients are. We have found that 'adam' is a good first choice due to its faster convergence speed and applicability to several problems without extensive need for hyperparameter tuning [12]. However, we plan to run several hyperparameter tuning experiments with various optimizers, learning rates, momentum decay, etc in order to improve our model performance.</p>
         </section>
 
         <section id="methods">
@@ -62,10 +62,10 @@
             <br>
             <p>To improve our model’s accuracy, we implemented the following data preprocessing steps:</p><br>
             <ul>
-                <li><strong>Batching:</strong> Our train, test, and validation datasets were divided in smaller batches of 32 images each, reducing memory usage and allowing faster training and faster convergence of our model [16].</li>
-                <li><strong>Normalization of pixels:</strong> The pixel values of each image were normalized by dividing each pixel value by 255, resulting in values within the range [0, 1]. This helped maintain stable gradients and improved computation speed [17].</li>
-                <li><strong>Data prefetching:</strong> Prefetching allowed the model to dynamically load the next batches based on current resources, minimizing wait time between batches. This allowed for faster training and optimized resource usage [18].</li>
-                <li><strong>Data augmentation:</strong> The training dataset was synthetically increased with data augmentation techniques, including random horizontal flips, and slight rotations and slight zooms to reduce overfitting [19].</li>
+                <li><strong>Batching:</strong> Our train, test, and validation datasets were divided in smaller batches of 32 images each, reducing memory usage and allowing faster training and faster convergence of our model [15].</li>
+                <li><strong>Normalization of pixels:</strong> The pixel values of each image were normalized by dividing each pixel value by 255, resulting in values within the range [0, 1]. This helped maintain stable gradients and improved computation speed [16].</li>
+                <li><strong>Data prefetching:</strong> Prefetching allowed the model to dynamically load the next batches based on current resources, minimizing wait time between batches. This allowed for faster training and optimized resource usage [17].</li>
+                <li><strong>Data augmentation:</strong> The training dataset was synthetically increased with data augmentation techniques, including random horizontal flips, and slight rotations and slight zooms to reduce overfitting [18].</li>
             </ul>
         </section>
 
@@ -225,40 +225,40 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>[8] K. He, X. Zhang, S. Ren, and J. Sun, “Deep Residual Learning for Image Recognition,” arXiv.org, Dec. 10, 2015. https://arxiv.org/abs/1512.03385</td>
+                        <td>[7] K. He, X. Zhang, S. Ren, and J. Sun, “Deep Residual Learning for Image Recognition,” arXiv.org, Dec. 10, 2015. https://arxiv.org/abs/1512.03385</td>
                     </tr>
                     <tr>
-                        <td>[9] “(PDF) The Impact of Filter Size and Number of Filters on Classification Accuracy in CNN,” www.researchgate.net. https://www.researchgate.net/publication/342999107_The_Impact_of_Filter_Size_and_Number_of_Filters_on_Classification_Accuracy_in_CNN</td>
+                        <td>[8] “(PDF) The Impact of Filter Size and Number of Filters on Classification Accuracy in CNN,” www.researchgate.net. https://www.researchgate.net/publication/342999107_The_Impact_of_Filter_Size_and_Number_of_Filters_on_Classification_Accuracy_in_CNN</td>
                     </tr>
                     <tr>
-                        <td>[10] https://medium.com/swlh/how-to-create-a-residual-network-in-tensorflow-and-keras-cd97f6c62557</td>
+                        <td>[9] https://medium.com/swlh/how-to-create-a-residual-network-in-tensorflow-and-keras-cd97f6c62557</td>
                     </tr>
                     <tr>
-                        <td>[11] https://github.com/Prakadeeswaran05/Customising-your-models-with-TensorFlow-2-Coursera/blob/main/Week%204%20Programming%20Assignment-Residual%20Network.ipynb</td>
+                        <td>[10] https://github.com/Prakadeeswaran05/Customising-your-models-with-TensorFlow-2-Coursera/blob/main/Week%204%20Programming%20Assignment-Residual%20Network.ipynb</td>
                     </tr>
                     <tr>
-                        <td>[12] https://www.youtube.com/watch?v=Q1JCrG1bJ-A</td>
+                        <td>[11] https://www.youtube.com/watch?v=Q1JCrG1bJ-A</td>
                     </tr>
                     <tr>
-                        <td>[13] https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adam</td>
+                        <td>[12] https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adam</td>
                     </tr>
                     <tr>
-                        <td>[14] https://www.tensorflow.org/api_docs/python/tf/keras/losses/SparseCategoricalCrossentropy</td>
+                        <td>[13] https://www.tensorflow.org/api_docs/python/tf/keras/losses/SparseCategoricalCrossentropy</td>
                     </tr>
                     <tr>
-                        <td>[15] https://www.geeksforgeeks.org/what-is-a-projection-layer-in-the-context-of-neural-networks/</td>
+                        <td>[14] https://www.geeksforgeeks.org/what-is-a-projection-layer-in-the-context-of-neural-networks/</td>
                     </tr>
                     <tr>
-                        <td>[16] “Batch processing: The key to making your neural networks sing,” Tooliqa, https://www.tooli.qa/insights/batch-processing-the-key-to-making-your-neural-networks-sing (accessed Nov. 11, 2024).</td>
+                        <td>[15] “Batch processing: The key to making your neural networks sing,” Tooliqa, https://www.tooli.qa/insights/batch-processing-the-key-to-making-your-neural-networks-sing (accessed Nov. 11, 2024).</td>
                     </tr>
                     <tr>
-                        <td>[17] P. Harsh, “Normalization in image preprocessing: Scaling pixel values by 1/255,” Medium, https://medium.com/@patelharsh7458/normalization-in-image-preprocessing-scaling-pixel-values-by-1-255-111b2fa496d4 (accessed Nov. 11, 2024).</td>
+                        <td>[16] P. Harsh, “Normalization in image preprocessing: Scaling pixel values by 1/255,” Medium, https://medium.com/@patelharsh7458/normalization-in-image-preprocessing-scaling-pixel-values-by-1-255-111b2fa496d4 (accessed Nov. 11, 2024).</td>
                     </tr>
                     <tr>
-                        <td>[18] “Better performance with the tf.data API,” TensorFlow, https://www.tensorflow.org/guide/data_performance (accessed Nov. 11, 2024).</td>
+                        <td>[17] “Better performance with the tf.data API,” TensorFlow, https://www.tensorflow.org/guide/data_performance (accessed Nov. 11, 2024).</td>
                     </tr>
                     <tr>
-                        <td>[19] “Data augmentation,” TensorFlow, https://www.tensorflow.org/tutorials/images/data_augmentation (accessed Nov. 11, 2024).</td>
+                        <td>[18] “Data augmentation,” TensorFlow, https://www.tensorflow.org/tutorials/images/data_augmentation (accessed Nov. 11, 2024).</td>
                     </tr>
                 </tbody>
             </table>
