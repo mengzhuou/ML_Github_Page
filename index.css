@@ -128,7 +128,7 @@ tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-/* Reference Table */
+/* Reference Table Styling */
 .reference-table {
     width: 100%;
     border-collapse: collapse;
@@ -147,4 +147,21 @@ tbody tr:nth-child(even) {
 
 .reference-table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
+}
+
+/* Wrapping for Long References */
+.reference-table td {
+    max-width: 700px; /* Adjust width if needed */
+    word-wrap: break-word;
+    white-space: normal;
+    padding-bottom: 10px;
+    line-height: 1.4em;
+    text-align: left;
+}
+
+/* Optional Bullet Point for Reference Entries */
+.reference-table td::before {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #333;
 }
