@@ -48,7 +48,7 @@
             <p>Our residual block contains 2x convolution (with rectified linear unit, or ReLu activation) + batch norm blocks such that the input tensor is added to the result of the second convolution output, and then finally passes through a ReLu activation before being returned.</p>
             <br>
             <p>The current architecture of our ResNet Model is as follows:
-            [input tensor -> data augmentation layers -> initial convolution -> batch norm -> activation -> residual block 1 -> residual block 2 -> residual block 3 -> global average pooling -> flatten -> dense layer (with softmax)] [9,10,11]</p>
+            [input tensor -> data augmentation layers -> initial convolution -> batch norm -> activation -> residual block 1 -> residual block 2 -> residual block 3 -> global average pooling -> flatten -> dense layer (with softmax)] [9],[10],[11].</p>
             <br>
             <p>We increase the filter size between each residual block to capture more complex features of our car image dataset, (theoretically) such as chassis shape or car brand logos [8]. To offset the computational cost of increased number of feature maps and maintain uniform dimensions, we employ a projection or bottleneck convolution layer with a 1x1 kernel size that ensures that the number of channels/depth of the input matches the # of channels of the residual block's second convolution's output [14].</p>
             <br>
