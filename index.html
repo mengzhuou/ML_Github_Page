@@ -64,14 +64,115 @@
 
         <section id="results-discussion">
             <h2>Results and Discussion</h2>
-            <p>In this project, we aim to classify cars using a combination of convolutional neural networks (CNNs), vision transformers (ViT), and Gaussian Mixture Models (GMM). The evaluation of these models will rely on the following metrics:</p>
-            <ul>
-                <li><strong>Accuracy</strong>: The percentage of total correct predictions out of all predictions.</li>
-                <li><strong>Precision</strong>: The percentage of correct positive predictions (correctly identified cars) out of all positive predictions.</li>
-                <li><strong>Recall</strong>: The percentage of actual positives correctly identified by the model.</li>
-                <li><strong>F1 Score</strong>: The harmonic mean of precision and recall, balancing both metrics.</li>
-            </ul>
-            <p>We anticipate that the CNN and ViT models will perform well in terms of accuracy, given their proven track records in image classification tasks. However, the GMM model is expected to yield lower precision and recall as it clusters cars based on chassis shape rather than making exact predictions.</p>
+        
+            <p>The ResNet model implemented here is inspired by Microsoft's 2015 ResNet architecture, leveraging residual blocks to enable deep learning without gradient vanishing or explosion issues. Each residual block in the model comprises two convolutional layers with batch normalization, connected by skip connections. These skip connections help preserve gradients across layers, allowing for more stable and effective training even in deep networks. The model processes input data through an initial convolution, followed by three residual blocks that increase the number of filters to capture complex features. A bottleneck 1x1 convolution aligns the dimensions between residual blocks to keep the feature map size consistent, which is essential for efficient learning without inflating computational costs. The model concludes with a global average pooling layer, flattening, and a dense softmax layer for classification. The use of sparse categorical cross-entropy as the loss function helps simplify label handling, and the Adam optimizer accelerates convergence with minimal hyperparameter adjustments.</p>
+            <br>
+
+            <h3>Initial Evaluation (0% Accuracy)</h3>
+            <p>The first run, with 196 classes and no data augmentation, yielded 0% test accuracy (initally 1% at epoch 1, but decreased with each epoch) and no meaningful precision, recall, or F1 scores across classes. This was largely due to the high class count, which overwhelmed the model, and the computational burden from the 1x1 bottleneck convolution layer, which introduced inefficiencies. The confusion matrix revealed nearly random predictions, indicating severe underfitting. At this stage, the model lacked the ability to generalize effectively, likely due to insufficient gradient flow and difficulty learning distinctive features for each class.</p>
+            <br>
+
+            <h3>Second Evaluation (13% Accuracy, Reduced Classes)</h3>
+            <p>Reducing the class count from 196 to 48 improved the model's ability to distinguish between brands, resulting in a 13% accuracy increase. This reduction made the task more manageable, allowing the model to start learning specific brand features, though still at a limited level. Precision and recall scores showed modest improvement, particularly for brands like Aston Martin, Ferrari, and Chevrolet. The confusion matrix demonstrated an increase in correctly predicted classes but still displayed significant misclassifications, suggesting further optimization was needed.</p>
+            <br>
+
+            <h3>Third Evaluation (17% Accuracy, Added Data Augmentation)</h3>
+            <p>Adding data augmentation layers led to a 17% test accuracy, as augmentation introduced variability in the training set, allowing the model to generalize better across different lighting, contrast, and orientation conditions. Brands like Audi, BMW, Chrysler, and Ferrari saw further improvement in precision, recall, and F1 scores, indicating that the model was increasingly capable of recognizing brand-specific features. The confusion matrix showed increased clustering along the diagonal, especially for brands with a substantial number of samples, though performance on less-represented brands remained low.</p>
+            <br>
+
+            <h3>Fourth Evaluation (32% Accuracy, 30 Epochs)</h3>
+            <p>The model reached 32% accuracy after training for 30 epochs, allowing it to better internalize features across brands. This run saw notable improvements in both precision and recall for brands like Acura, Audi, BMW, Ferrari, and HUMMER. The longer training time allowed the model to recognize distinctive patterns, but brands with limited data still had poor performance, as reflected in the confusion matrix. This indicates a need for techniques to address class imbalance, such as weighted loss functions, to further improve generalization.</p>
+            <br>
+
+            <h3>Fifth Evaluation (38% Accuracy, 50 Epochs, Overfitting Observed)</h3>
+            <p>With 50 epochs, the model achieved a 38% test accuracy and an F1 score of 0.37. However, training accuracy reached 70%, suggesting overfitting as the validation accuracy stagnated at 36%. This was confirmed in the confusion matrix, where frequently seen brands showed strong performance while rarer brands remained problematic. The model learned specific details rather than general patterns, which compromised its ability to generalize. Regularization methods, such as dropout or weight decay, may help prevent this overfitting in future runs.</p>
+            <br>
+
+            <h3>Sixth Evaluation (24% Accuracy, Extra Activation Layer)</h3>
+            <p>Adding a separate activation layer on top of batch normalization within the residual blocks reduced test accuracy to 24% and F1 score to 0.2, indicating degraded model performance. The addition of an extra activation layer disrupted the learning dynamics within residual blocks, as seen in the lower scores across several brands. The confusion matrix shows fewer correct predictions than in the 32% model, particularly for brands previously performing well, like BMW and Ferrari. This outcome suggests that integrating activation functions directly within convolutional layers may provide more stable learning.</p>
+            <br><br>
+
+            <h3>Summary Table of Model Runs and Results</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Evaluation</th>
+                        <th>Model Changes</th>
+                        <th>Test Accuracy</th>
+                        <th>F1 Score</th>
+                        <th>Observations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Initial (model_916520)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_916520/classification_report_20241107_120051.txt" target="_blank">Classification Report</a>
+                            <br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_916520/confusion_matrix_20241107_120051.png" target="_blank">Confusion Matrix Heat Map</a>
+                        </td>
+                        <td>196 classes, no data augmentation</td>
+                        <td>0%</td>
+                        <td>0.0</td>
+                        <td>Severe underfitting with random-like predictions; high computational burden from 1x1 convolution bottleneck</td>
+                    </tr>
+                    <tr>
+                        <td>Second (model_condensedclasssize_916991)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_condensedclasssize_916991/classification_report_20241107_164005.txt" target="_blank">Classification Report</a>
+                            <br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_condensedclasssize_916991/confusion_matrix_20241107_164005.png" target="_blank">Confusion Matrix Heat Map</a>
+                        </td>
+                        <td>Reduced to 48 classes, 10 epochs, 10 steps/epoch</td>
+                        <td>13%</td>
+                        <td>0.07</td>
+                        <td>Improved ability to distinguish brands; modest improvement for certain brands like Aston Martin and Ferrari; some correct predictions appeared</td>
+                    </tr>
+                    <tr>
+                        <td>Third (model_917357)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_917357/classification_report_20241107_194802.txt" target="_blank">Classification Report</a>
+                            <br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_917357/confusion_matrix_20241107_194802.png" target="_blank">Confusion Matrix Heat Map</a>
+                        </td>
+                        <td>Added data augmentation</td>
+                        <td>17%</td>
+                        <td>0.13</td>
+                        <td>Better generalization across varied lighting and contrast; increased performance for Audi, BMW, and Chrysler; improved diagonal clustering</td>
+                    </tr>
+                    <tr>
+                        <td>Fourth (model_32accuracy_917372)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_32accuracy_917372/classification_report_20241107_205928.txt" target="_blank">Classification Report</a>
+                            <br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_32accuracy_917372/confusion_matrix_20241107_205928.png" target="_blank">Confusion Matrix Heat Map</a>
+                        </td>
+                        <td>30 epochs full steps</td>
+                        <td>32%</td>
+                        <td>0.29</td>
+                        <td>Significant performance gain; better feature extraction for major brands; less-represented brands still underperformed</td>
+                    </tr>
+                    <tr>
+                        <td>Fifth (model_917799)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_917799/classification_report_20241108_010740.txt" target="_blank">Classification Report</a>
+                            <br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_917799/confusion_matrix_20241108_010740.png" target="_blank">Confusion Matrix Heat Map</a>
+                        </td>
+                        <td>50 epochs full steps, observed overfitting</td>
+                        <td>38%</td>
+                        <td>0.37</td>
+                        <td>Highest accuracy but clear overfitting with 70% train accuracy; frequent brands well-identified, less common brands poorly predicted</td>
+                    </tr>
+                    <tr>
+                        <td>Sixth (model_926034)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_926034/classification_report_20241111_144402.txt" target="_blank">Classification Report</a>
+                            <br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_926034/confusion_matrix_20241111_144402.png" target="_blank">Confusion Matrix Heat Map</a>
+                        </td>
+                        <td>Extra activation layer after batch norm</td>
+                        <td>24%</td>
+                        <td>0.20</td>
+                        <td>Performance declined with extra activation; reduced accuracy for most brands; activation within convolution layers preferable for stability</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
         <section id="reference">
@@ -129,7 +230,7 @@
                     </tr>
                     <tr>
                         <td>Nicole Hernandez Canales</td>
-                        <td>Results and Discussion section</td>
+                        <td>Results and Discussion section and <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/resnet_exp.py" target="_blank">evaluate model and display results portion</a></td>
                     </tr>
                     <tr>
                         <td>Mengzhu Ou</td>
