@@ -100,6 +100,8 @@
                         <th>Evaluation</th>
                         <th>Model Changes</th>
                         <th>Test Accuracy</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
                         <th>F1 Score</th>
                         <th>Observations</th>
                     </tr>
@@ -112,18 +114,22 @@
                             <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_916520/confusion_matrix_20241107_120051.png" target="_blank">Confusion Matrix Heat Map</a>
                         </td>
                         <td>196 classes, no data augmentation</td>
-                        <td>0%</td>
-                        <td>0.0</td>
+                        <td>1%</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
                         <td>Severe underfitting with random-like predictions; high computational burden from 1x1 convolution bottleneck</td>
                     </tr>
                     <tr>
-                        <td>Second (model_condensedclasssize_916991)<br><br>
+                        <td>Second (model_916991)<br><br>
                             <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_condensedclasssize_916991/classification_report_20241107_164005.txt" target="_blank">Classification Report</a>
                             <br>
                             <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_condensedclasssize_916991/confusion_matrix_20241107_164005.png" target="_blank">Confusion Matrix Heat Map</a>
                         </td>
                         <td>Reduced to 48 classes, 10 epochs, 10 steps/epoch</td>
                         <td>13%</td>
+                        <td>0.11</td>
+                        <td>0.13</td>
                         <td>0.07</td>
                         <td>Improved ability to distinguish brands; modest improvement for certain brands like Aston Martin and Ferrari; some correct predictions appeared</td>
                     </tr>
@@ -135,17 +141,21 @@
                         </td>
                         <td>Added data augmentation</td>
                         <td>17%</td>
+                        <td>0.14</td>
+                        <td>0.17</td>
                         <td>0.13</td>
                         <td>Better generalization across varied lighting and contrast; increased performance for Audi, BMW, and Chrysler; improved diagonal clustering</td>
                     </tr>
                     <tr>
-                        <td>Fourth (model_32accuracy_917372)<br><br>
+                        <td>Fourth (model_917372)<br><br>
                             <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_32accuracy_917372/classification_report_20241107_205928.txt" target="_blank">Classification Report</a>
                             <br>
                             <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_32accuracy_917372/confusion_matrix_20241107_205928.png" target="_blank">Confusion Matrix Heat Map</a>
                         </td>
                         <td>30 epochs full steps</td>
                         <td>32%</td>
+                        <td>0.36</td>
+                        <td>0.32</td>
                         <td>0.29</td>
                         <td>Significant performance gain; better feature extraction for major brands; less-represented brands still underperformed</td>
                     </tr>
@@ -157,6 +167,8 @@
                         </td>
                         <td>50 epochs full steps, observed overfitting</td>
                         <td>38%</td>
+                        <td>0.47</td>
+                        <td>0.38</td>
                         <td>0.37</td>
                         <td>Highest accuracy but clear overfitting with 70% train accuracy; frequent brands well-identified, less common brands poorly predicted</td>
                     </tr>
@@ -168,6 +180,8 @@
                         </td>
                         <td>Extra activation layer after batch norm</td>
                         <td>24%</td>
+                        <td>0.24</td>
+                        <td>0.24</td>
                         <td>0.20</td>
                         <td>Performance declined with extra activation; reduced accuracy for most brands; activation within convolution layers preferable for stability</td>
                     </tr>
