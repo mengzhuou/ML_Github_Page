@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle Detection and Classification Proposal</title>
+    <title>Vehicle Detection and Classification Final Report </title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -93,7 +93,6 @@
             </ul>
         </section>
 
-
         <section id="results-discussion">
             <h2>Results and Discussion</h2>
         
@@ -123,6 +122,9 @@
             <h3>Sixth Evaluation (24% Accuracy, Extra Activation Layer)</h3>
             <p>Adding a separate activation layer on top of batch normalization within the residual blocks reduced test accuracy to 24% and F1 score to 0.2, indicating degraded model performance. The addition of an extra activation layer disrupted the learning dynamics within residual blocks, as seen in the lower scores across several brands. The confusion matrix shows fewer correct predictions than in the 32% model, particularly for brands previously performing well, like BMW and Ferrari. This outcome suggests that integrating activation functions directly within convolutional layers may provide more stable learning.</p>
             <br><br>
+
+            <h3>Seventh Evaluation (43% Accuracy, 60 Epochs, Overfitting Observed)</h3>
+            <p>The model achieved 43% accuracy on the test set, with an F1 score of 0.41. While brands like HUMMER and Acura performed relatively well (F1 scores above 60%), rarer brands like Cadillac and Porsche had near-zero performance due to class imbalance. Overfitting was evident, with training accuracy reaching 91%, but validation accuracy lagging at 44.4%. </p>
 
             <h3>Summary Table of Model Runs and Results</h3>
 
@@ -217,8 +219,59 @@
                         <td>0.20</td>
                         <td>Performance declined with extra activation; reduced accuracy for most brands; activation within convolution layers preferable for stability</td>
                     </tr>
+                    <tr>
+                        <td>Seventh (model_983557)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_43accuracy_983557/classification_report_20241126_044454.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/results/model_43accuracy_983557/confusion_matrix_20241126_044454.png" target="_blank">Confusion Matrix Heat Map</a>
+                        </td>
+                        <td>60 epochs full steps, observed overfitting</td>
+                        <td>43%</td>
+                        <td>0.46</td>
+                        <td>0.43</td>
+                        <td>0.41</td>
+                        <td>Advanced data augmentation techniques such as random contrast and brightness adjustments and random cropping were added, which improved the model's accuracy by 10%.</td>
+                    </tr>
+                    <tr>
+                        <td>Eighth (model_988968)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/Hyperparameter/results/model_Hyperparameter_15accuracy_988968/classification_report_20241127_152357.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/Hyperparameter/results/model_Hyperparameter_15accuracy_988968/confusion_matrix_20241127_152357.png" target="_blank">Confusion Matrix Heat Map</a>
+                        </td>
+                        <td>62 epochs full steps, initial hyperparameter tuning</td>
+                        <td>15%</td>
+                        <td>0.16</td>
+                        <td>0.15</td>
+                        <td>0.13</td>
+                        <td>Initial hyperparameter tuning resulted in poor performance, highlighting the need for further optimization.</td>
+                    </tr>
+                    <tr>
+                        <td>Ninth (model_989280)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/Hyperparameter/results/model_Hyperparameter_27accuracy_989280/classification_report_20241127_184625.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/Hyperparameter/results/model_Hyperparameter_27accuracy_989280/confusion_matrix_20241127_184625.png" target="_blank">Confusion Matrix Heat Map</a>
+                        </td>
+                        <td>62 epochs full steps, improved hyperparameter tuning</td>
+                        <td>27%</td>
+                        <td>0.22</td>
+                        <td>0.27</td>
+                        <td>0.22</td>
+                        <td>Further hyperparameter adjustments led to a significant improvement in accuracy and generalization, indicating potential for optimization.</td>
+                    </tr>
                 </tbody>
             </table>
+        </section>
+
+
+
+        <section id="results-discussion">
+            <h2>Next Steps</h2>
+            
+            <h3>Enhance Data Augmentation</h4>
+            <p>While basic augmentation is included, it might not be sufficient to diversify the training data and make the model robust. Augmentation strategies like Color Jittering, Random Rotations and Perspective Transformations, and Increased Random Cropping could help.</p>            <br>
+
+            <h3>Refinement of Model Architecture</h4>
+            <p>The ResNetModel with three residual blocks may not have sufficient depth or feature extraction capabilities to handle a complex multi-class classification problem like this. Adding more blocks or using a pretrained ResNet might improve results.</p>
         </section>
 
         <section id="reference">
@@ -320,7 +373,7 @@
                     </tr>
                     <tr>
                         <td>Mengzhu Ou</td>
-                        <td>Data Cleaning</td>
+                        <td>Data Augmentation Improvement</td>
                     </tr>
                 </tbody>
             </table>
