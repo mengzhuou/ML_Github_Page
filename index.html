@@ -121,13 +121,24 @@
 
             <h3>Sixth Evaluation (24% Accuracy, Extra Activation Layer)</h3>
             <p>Adding a separate activation layer on top of batch normalization within the residual blocks reduced test accuracy to 24% and F1 score to 0.2, indicating degraded model performance. The addition of an extra activation layer disrupted the learning dynamics within residual blocks, as seen in the lower scores across several brands. The confusion matrix shows fewer correct predictions than in the 32% model, particularly for brands previously performing well, like BMW and Ferrari. This outcome suggests that integrating activation functions directly within convolutional layers may provide more stable learning.</p>
-            <br><br>
+            <br>
 
             <h3>Seventh Evaluation (43% Accuracy, 60 Epochs, Overfitting Observed)</h3>
             <p>The model achieved 43% accuracy on the test set, with an F1 score of 0.41. While brands like HUMMER and Acura performed relatively well (F1 scores above 60%), rarer brands like Cadillac and Porsche had near-zero performance due to class imbalance. Overfitting was evident, with training accuracy reaching 91%, but validation accuracy lagging at 44.4%. </p>
+            <br>
+            
+            <h3>Eighth Evaluation (15% Accuracy, 62 Epochs, Hyperparameter Tuning)</h3>
 
+            <p>
+                The model achieved 15% accuracy on the test set, with an F1 score of 0.13. While hyperparameter tuning was applied with learning rate of 1e-3, the model's performance was relatively poor due to limited generalization capabilities. The large gap between training and testing accuracy suggests that further tuning or architectural changes are needed to improve the results.
+            </p>
+            <br>
+
+            <h3>Ninth Evaluation (27% Accuracy, 62 Epochs, Improved Hyperparameter Tuning)</h3>
+            The model achieved 27% accuracy on the test set, with an F1 score of 0.22. This marks a notable improvement over the eighth evaluation with learning rate of 1e-4, indicating that adjustments in hyperparameter tuning, such as learning rate and batch size, helped the model generalize better. However, the performance still requires significant optimization to handle the complexity of the classification task effectively.
             <h3>Summary Table of Model Runs and Results</h3>
-
+            <br><br>
+            
             <table>
                 <thead>
                     <tr>
