@@ -282,8 +282,8 @@
             <h2>Next Steps</h2>
             
             <h3>Enhance Data Augmentation</h4>
-            <p>While basic augmentation is included, it might not be sufficient to diversify the training data and make the model robust. Augmentation strategies like Color Jittering, Random Rotations and Perspective Transformations, and Increased Random Cropping could help.</p>            <br>
-
+            <p>While basic augmentation is included, additional strategies could further diversify the training data and improve model robustness. Since we already have random rotations, cropping, random contrast and brightness, we could expand these augmentations by incorporating random hue and saturation adjustments or replace brightness/contrast adjustments with a full-color jittering implementation for more comprehensive augmentation.</p>
+            
             <h3>Refinement of Model Architecture</h4>
             <p>The ResNetModel with three residual blocks may not have sufficient depth or feature extraction capabilities to handle a complex multi-class classification problem like this. Adding more blocks or using a pretrained ResNet might improve results.</p>
         </section>
