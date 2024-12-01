@@ -81,8 +81,8 @@
         
             <h4>Pipeline Structure and Flow</h4>
             <p>
-                The pipeline consists of four main components:
-                <strong>Data Loading</strong>, <strong>Clustering</strong>, <strong>Metrics Evaluation</strong>, and <strong>Visualization</strong>. 
+                Each pipeline consists of four main components:
+                Data Loading, Clustering, Metrics Evaluation, and Visualization. 
                 The <em>data_loader.py</em> preprocessed the dataset by normalizing image data and applying PCA with 150 components, reducing computational complexity and noise. 
                 The <em>gmm_pipeline.py</em> implemented clustering using Gaussian Mixture Models (GMM) and K-Means, iterating over different cluster sizes (<em>k</em>) and covariance types.
                 Metrics evaluation included accuracy, precision, recall, F1 score, Fowlkes-Mallows score, and silhouette score. The results and visualizations (e.g., t-SNE and confusion matrices) were stored for qualitative and quantitative analysis.
@@ -134,7 +134,7 @@
             </p>
             <br><br>
 
-            <h4>Approach 4: Random Forest & SVM Integration - model_999191_100-iters_100-pca-components</h4>
+            <h4>Approach 4: Random Forest & SVM - model_999191_100-iters_100-pca-components</h4>
 
             <p>This approach incorporates supervised learning methods (Random Forest and Support Vector Machines) alongside unsupervised clustering techniques (K-Means and GMM). By evaluating both supervised and unsupervised approaches on the same dataset, the approach explores their comparative strengths and weaknesses. The supervised models aim to maximize predictive accuracy using labeled data, while the unsupervised methods explore inherent cluster structures within the dataset. The pipeline emphasizes a comprehensive evaluation of these models under a consistent preprocessing framework.</p>
             <br>
