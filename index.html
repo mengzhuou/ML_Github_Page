@@ -71,6 +71,9 @@
 
             <h3>GMM - Gaussian Mixture Models</h3>
     
+            <p>This section explores four distinct analyses undertaken to classify and understand the Stanford Cars dataset using a combination of supervised and unsupervised machine learning methods. The first analysis compares the clustering capabilities of Gaussian Mixture Models (GMM) and K-Means, utilizing silhouette scores and other metrics for evaluation. The second analysis extends the unsupervised pipeline by introducing DBSCAN and Spectral Clustering to address non-spherical and arbitrarily shaped clusters. The third analysis integrates a hybrid K-Means + GMM pipeline to refine clustering by leveraging the strengths of both methods. Finally, the fourth analysis combines supervised models—Random Forest and Support Vector Machines (SVM)—with the unsupervised methods, enabling a direct comparison of supervised and unsupervised learning paradigms. Each analysis is presented with details on pipeline structure, design choices, and the reasoning behind key decisions.</p>
+            <br>
+
             <h4>Analysis 1: GMM vs K-Means - model_997376_100-iters_150-pca-components</h4>
         
             <p>This analysis focuses on implementing Gaussian Mixture Models (GMM) and K-Means to cluster the dataset into groups that share common features, such as chassis shape or overall dimensions. The goal was to explore the efficacy of GMM in providing cluster structures while leveraging silhouette scores and other metrics for evaluation. GMM was chosen for its ability to model data with mixed Gaussian distributions, a property suitable for complex datasets like cars [16].</p>
