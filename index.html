@@ -130,6 +130,22 @@
             K-Means is computationally efficient and provides a deterministic clustering result, which is really good as an initialization method for GMM. GMM, in turn, refines these clusters by using its probabilistic framework. Dimensionality reduction through PCA remained at 50 components to ensure that the computational load remained manageable while retaining significant variance in the dataset. Multiple covariance types—<em>full</em>, <em>diag</em>, <em>tied</em>, and <em>spherical</em>—were explored to allow the model to adapt to various cluster shapes and data distributions [20]. The iterative refinement enabled by this hybrid approach not only improves the quality of the clusters but also ensures that the initialization step from K-Means mitigates GMM's sensitivity to random starts. Metrics and visualization components were integral to validating the pipeline's effectiveness, ensuring that results were both quantitatively robust and qualitatively interpretable [21].
             </p>
             <br><br>
+
+            <h4>Analysis 4: Random Forest & SVM Integration - model_999191_100-iters_100-pca-components</h4>
+
+            <p>This analysis incorporates supervised learning methods (Random Forest and Support Vector Machines) alongside unsupervised clustering techniques (K-Means and GMM). By evaluating both supervised and unsupervised approaches on the same dataset, the analysis explores their comparative strengths and weaknesses. The supervised models aim to maximize predictive accuracy using labeled data, while the unsupervised methods explore inherent cluster structures within the dataset. The pipeline emphasizes a comprehensive evaluation of these models under a consistent preprocessing framework.</p>
+            <br>
+            
+            <h4>Pipeline Structure and Flow</h4>
+            <p>
+            The pipeline begins with data preprocessing using PCA to reduce dimensionality to 100 components, which balances computational efficiency with data variance preservation. For supervised learning, the preprocessed dataset is split into training and testing subsets. Random Forest and SVM models are then trained on the labeled training data and evaluated using the testing set. In parallel, the unsupervised methods—K-Means and GMM—are applied to the preprocessed data, exploring various configurations of cluster sizes (<em>k</em>) and covariance types for GMM. The clustering results are evaluated using metrics such as silhouette scores, Fowlkes-Mallows scores, and visualizations like t-SNE plots and confusion matrices.
+            </p>
+            <br>
+            
+            <h4>Key Design Choices and Reasoning</h4>
+            <p>
+            Random Forest was chosen for its robustness to overfitting and ability to handle large datasets with minimal parameter tuning, while SVM provided a linear baseline to compare against the more complex clustering results. PCA was extended to 100 components in this analysis to ensure that sufficient data variance was preserved for the supervised models, which typically rely on higher-dimensional representations. We maintained the integration of hybrid K-Means + GMM methods to combine the computational simplicity of K-Means with the flexibility of GMM to model overlapping and non-spherical clusters.
+            </p>
         </section>
 
         <section id="methods">
