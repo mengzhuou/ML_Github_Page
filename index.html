@@ -43,6 +43,8 @@
         <section id="methods">
             <h2>Implemented Methods</h2>
 
+            <p>This section describes the implemented methods for analyzing and classifying the condensed Stanford Cars dataset. Three approaches were explored: a convolutional neural network (CNN) based on a Residual Neural Network architecture, Visual Transformer (ViT) model, and various clustering methods implemented using Gaussian Mixture Models (GMM) and other algorithms.</p>
+            <br>
             <p>We will resize all images to ensure consistent input dimensions, as neural networks require uniform image sizes for layers like convolution. Data augmentation (e.g., rotation, flipping, noise injection and reduction, cropping) will be applied to generate additional images, increasing the dataset size and preventing overfitting [4]. Pixel normalization will standardize lighting conditions and ensure consistent image scales.</p>
             <br>
             <p>The Vision Transformer (ViT) requires “patches” from the input image, and thus a patch-creation pre-processing step will be required [5]. We plan to train 2 supervised models, Convolution neural networks (CNN) and Vision transformer (ViT), and one unsupervised model, Gaussian Mixture model (GMM), for car classification.</p>
@@ -65,6 +67,52 @@
             <p>We increase the filter size between each residual block to capture more complex features of our car image dataset, (theoretically) such as chassis shape or car brand logos [9]. To offset the computational cost of increased number of feature maps and maintain uniform dimensions, we employ a projection or bottleneck convolution layer with a 1x1 kernel size that ensures that the number of channels/depth of the input matches the # of channels of the residual block's second convolution's output [15].</p>
             <br>
             <p>We also employ Sparse Categorical cross entropy as our loss function as it allows direct indexing of class labels rather than requiring one-hot encoding, which is helpful for our pipeline as we have a large class size of 48 [14]. Additionally, we opted to use 'adam' (adaptive moment estimator) as our optimizer as it allows more flexibility in adjusting learning rates based on how large/small the gradients are. We have found that 'adam' is a good first choice due to its faster convergence speed and applicability to several problems without extensive need for hyperparameter tuning [13]. However, we plan to run several hyperparameter tuning experiments with various optimizers, learning rates, momentum decay, etc in order to improve our model performance.</p>
+            <br><br>
+
+            <h3>GMM - Gaussian Mixture Models</h3>
+    
+            <h4>Analysis 1: GMM vs K-Means - model_997376_100-iters_150-pca-components</h4>
+        
+            <p>This analysis focuses on implementing Gaussian Mixture Models (GMM) and K-Means to cluster the dataset into groups that share common features, such as chassis shape or overall dimensions. The goal was to explore the efficacy of GMM in providing cluster structures while leveraging silhouette scores and other metrics for evaluation. GMM was chosen for its ability to model data with mixed Gaussian distributions, a property suitable for complex datasets like cars [16].</p>
+            <br>
+        
+            <h4>Pipeline Structure and Flow</h4>
+            <p>
+                The pipeline consists of four main components:
+                <strong>Data Loading</strong>, <strong>Clustering</strong>, <strong>Metrics Evaluation</strong>, and <strong>Visualization</strong>. 
+                The <em>data_loader.py</em> preprocessed the dataset by normalizing image data and applying PCA with 150 components, reducing computational complexity and noise. 
+                The <em>gmm_pipeline.py</em> implemented clustering using Gaussian Mixture Models (GMM) and K-Means, iterating over different cluster sizes (<em>k</em>) and covariance types.
+                Metrics evaluation included accuracy, precision, recall, F1 score, Fowlkes-Mallows score, and silhouette score. The results and visualizations (e.g., t-SNE and confusion matrices) were stored for qualitative and quantitative analysis.
+            </p>
+            <br>
+        
+            <h4>Key Design Choices and Reasoning</h4>
+            <p>
+                Key decisions included using PCA for dimensionality reduction, which balanced retaining dataset variance while reducing complexity, and employing multiple covariance types in GMM (<em>full</em>, <em>diag</em>), allowing flexibility in cluster shapes. 
+                The Hungarian Algorithm was used to map predicted clusters to ground truth labels for meaningful metric computation [17]. 
+                The inclusion of silhouette scores provided insights into cluster cohesion and separation.
+            </p>
+            <br>
+            <br>
+        
+            <h4>Analysis 2: DB-Scan and Spectral Clustering - model_998281_100-iters_50-pca-components</h4>
+        
+            <p>In this analysis, additional clustering algorithms were introduced, including DBSCAN and Spectral Clustering, alongside GMM and K-Means. DBSCAN was selected for its ability to handle arbitrary cluster shapes and detect outliers, while Spectral Clustering was included for its ability to cluster non-linearly separable data. This analysis further sought to refine the dimensionality reduction step with PCA, reducing the components to 50 for improved efficiency [18].</p>
+            <br>
+        
+            <h4>Pipeline Structure and Flow</h4>
+            <p>
+                This iteration of the pipeline extended clustering capabilities by integrating DBSCAN and Spectral Clustering in addition to GMM and K-Means. The <em>data_loader.py</em> script maintained the preprocessing steps but reduced PCA components to 50 to improve computational efficiency. 
+                The <em>gmm_pipeline.py</em> explored various clustering parameters, such as DBSCAN’s <em>eps</em> and <em>min_samples</em>, and GMM’s covariance types (<em>full</em>, <em>tied</em>, <em>diag</em>, and <em>spherical</em>).
+                Metrics evaluation and visualization components remained consistent, allowing direct comparisons between clustering methods.
+            </p>
+            <br>
+        
+            <h4>Key Design Choices and Reasoning</h4>
+            <p>
+                The inclusion of multiple clustering algorithms aimed to address the limitations of GMM and K-Means in handling overlapping or non-spherical clusters. DBSCAN was particularly chosen for its ability to detect arbitrary cluster shapes and identify outliers, with parameters <em>eps</em> and <em>min_samples</em> dynamically adjusted for experimentation. 
+                PCA was reduced to 50 components to further streamline computations, balancing variance retention and dimensionality reduction. Visualizations were leveraged to qualitatively evaluate the separability of clusters across algorithms.
+            </p>
         </section>
 
         <section id="methods">
@@ -86,10 +134,10 @@
             <br>
             <p>To improve our model’s accuracy, we implemented the following data preprocessing steps:</p><br>
             <ul>
-                <li><strong>Batching:</strong> Our train, test, and validation datasets were divided in smaller batches of 32 images each, reducing memory usage and allowing faster training and faster convergence of our model [16].</li>
-                <li><strong>Normalization of pixels:</strong> The pixel values of each image were normalized by dividing each pixel value by 255, resulting in values within the range [0, 1]. This helped maintain stable gradients and improved computation speed [17].</li>
-                <li><strong>Data prefetching:</strong> Prefetching allowed the model to dynamically load the next batches based on current resources, minimizing wait time between batches. This allowed for faster training and optimized resource usage [18].</li>
-                <li><strong>Data augmentation:</strong> The training dataset was synthetically increased with data augmentation techniques, including random horizontal flips, and slight rotations and slight zooms to reduce overfitting [19].</li>
+                <li><strong>Batching:</strong> Our train, test, and validation datasets were divided in smaller batches of 32 images each, reducing memory usage and allowing faster training and faster convergence of our model [19].</li>
+                <li><strong>Normalization of pixels:</strong> The pixel values of each image were normalized by dividing each pixel value by 255, resulting in values within the range [0, 1]. This helped maintain stable gradients and improved computation speed [20].</li>
+                <li><strong>Data prefetching:</strong> Prefetching allowed the model to dynamically load the next batches based on current resources, minimizing wait time between batches. This allowed for faster training and optimized resource usage [21].</li>
+                <li><strong>Data augmentation:</strong> The training dataset was synthetically increased with data augmentation techniques, including random horizontal flips, and slight rotations and slight zooms to reduce overfitting [22].</li>
             </ul>
         </section>
 
@@ -283,7 +331,8 @@
             
             <h3>Enhance Data Augmentation</h4>
             <p>While basic augmentation is included, additional strategies could further diversify the training data and improve model robustness. Since we already have random rotations, cropping, random contrast and brightness, we could expand these augmentations by incorporating random hue and saturation adjustments or replace brightness/contrast adjustments with a full-color jittering implementation for more comprehensive augmentation.</p>
-            
+            <br>
+
             <h3>Refinement of Model Architecture</h4>
             <p>The ResNetModel with three residual blocks may not have sufficient depth or feature extraction capabilities to handle a complex multi-class classification problem like this. Adding more blocks or using a pretrained ResNet might improve results.</p>
         </section>
@@ -344,16 +393,25 @@
                         <td>[15] https://www.geeksforgeeks.org/what-is-a-projection-layer-in-the-context-of-neural-networks/</td>
                     </tr>
                     <tr>
-                        <td>[16] “Batch processing: The key to making your neural networks sing,” Tooliqa, https://www.tooli.qa/insights/batch-processing-the-key-to-making-your-neural-networks-sing (accessed Nov. 11, 2024).</td>
+                        <td>[16] C. Bishop, “Pattern Recognition and Machine Learning,” Springer, 2006.</td>
                     </tr>
                     <tr>
-                        <td>[17] P. Harsh, “Normalization in image preprocessing: Scaling pixel values by 1/255,” Medium, https://medium.com/@patelharsh7458/normalization-in-image-preprocessing-scaling-pixel-values-by-1-255-111b2fa496d4 (accessed Nov. 11, 2024).</td>
+                        <td>[17] H. W. Kuhn, “The Hungarian Method for the Assignment Problem,” Naval Research Logistics Quarterly, vol. 2, no. 1–2, pp. 83–97, 1955, doi: 10.1002/nav.3800020109.</td>
                     </tr>
                     <tr>
-                        <td>[18] “Better performance with the tf.data API,” TensorFlow, https://www.tensorflow.org/guide/data_performance (accessed Nov. 11, 2024).</td>
+                        <td>[18] M. Ester, H. Kriegel, J. Sander, and X. Xu, “A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise,” in Proc. Int. Conf. on Knowledge Discovery and Data Mining (KDD), 1996, pp. 226–231.</td>
                     </tr>
                     <tr>
-                        <td>[19] “Data augmentation,” TensorFlow, https://www.tensorflow.org/tutorials/images/data_augmentation (accessed Nov. 11, 2024).</td>
+                        <td>[19] “Batch processing: The key to making your neural networks sing,” Tooliqa, https://www.tooli.qa/insights/batch-processing-the-key-to-making-your-neural-networks-sing (accessed Nov. 11, 2024).</td>
+                    </tr>
+                    <tr>
+                        <td>[20] P. Harsh, “Normalization in image preprocessing: Scaling pixel values by 1/255,” Medium, https://medium.com/@patelharsh7458/normalization-in-image-preprocessing-scaling-pixel-values-by-1-255-111b2fa496d4 (accessed Nov. 11, 2024).</td>
+                    </tr>
+                    <tr>
+                        <td>[21] “Better performance with the tf.data API,” TensorFlow, https://www.tensorflow.org/guide/data_performance (accessed Nov. 11, 2024).</td>
+                    </tr>
+                    <tr>
+                        <td>[22] “Data augmentation,” TensorFlow, https://www.tensorflow.org/tutorials/images/data_augmentation (accessed Nov. 11, 2024).</td>
                     </tr>
                 </tbody>
             </table>
