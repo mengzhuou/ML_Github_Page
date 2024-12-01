@@ -92,8 +92,7 @@
                 The Hungarian Algorithm was used to map predicted clusters to ground truth labels for meaningful metric computation [17]. 
                 The inclusion of silhouette scores provided insights into cluster cohesion and separation.
             </p>
-            <br>
-            <br>
+            <br><br>
         
             <h4>Analysis 2: DB-Scan and Spectral Clustering - model_998281_100-iters_50-pca-components</h4>
         
@@ -113,6 +112,24 @@
                 The inclusion of multiple clustering algorithms aimed to address the limitations of GMM and K-Means in handling overlapping or non-spherical clusters. DBSCAN was particularly chosen for its ability to detect arbitrary cluster shapes and identify outliers, with parameters <em>eps</em> and <em>min_samples</em> dynamically adjusted for experimentation. 
                 PCA was reduced to 50 components to further streamline computations, balancing variance retention and dimensionality reduction. Visualizations were leveraged to qualitatively evaluate the separability of clusters across algorithms.
             </p>
+            <br><br>
+
+            <h4>Analysis 3: Hybrid K-Means + GMM - model_998850_100-iters_50-pca-components</h4>
+        
+            <p>This analysis combines the strengths of K-Means and Gaussian Mixture Models (GMM) into a hybrid pipeline. K-Means is employed for pre-clustering, initializing centroids that are subsequently refined by GMM. This two-stage approach is designed to mitigate initialization challenges in GMM and improve overall clustering performance. The pipeline leverages PCA for dimensionality reduction, allowing efficient computation while maintaining key data features. This hybrid method addresses the limitations of standalone clustering algorithms, particularly in datasets with overlapping clusters or non-spherical distributions [19].</p>
+            <br>
+            
+            <h4>Pipeline Structure and Flow</h4>
+            <p>
+            The pipeline begins with the preprocessing step, where PCA reduces the dataset to 50 principal components. This dimensionality reduction preserves the dataset's variance while reducing computational complexity. Following PCA, K-Means is utilized as a pre-clustering method to identify initial centroids. This step ensures a stable starting point for the subsequent GMM refinement by addressing the initialization sensitivity found in GMM. The centroids derived from K-Means are used as the initialization points (`means_init`) for GMM, allowing the algorithm to converge faster and model more complex cluster shapes. The entire pipeline is automated to store results and visualizations in structured directories, facilitating an efficient comparison across different configurations.
+            </p>
+            <br>
+                    
+            <h4>Key Design Choices and Reasoning</h4>
+            <p>
+            K-Means is computationally efficient and provides a deterministic clustering result, which is really good as an initialization method for GMM. GMM, in turn, refines these clusters by using its probabilistic framework. Dimensionality reduction through PCA remained at 50 components to ensure that the computational load remained manageable while retaining significant variance in the dataset. Multiple covariance types—<em>full</em>, <em>diag</em>, <em>tied</em>, and <em>spherical</em>—were explored to allow the model to adapt to various cluster shapes and data distributions [20]. The iterative refinement enabled by this hybrid approach not only improves the quality of the clusters but also ensures that the initialization step from K-Means mitigates GMM's sensitivity to random starts. Metrics and visualization components were integral to validating the pipeline's effectiveness, ensuring that results were both quantitatively robust and qualitatively interpretable [21].
+            </p>
+            <br><br>
         </section>
 
         <section id="methods">
@@ -134,10 +151,10 @@
             <br>
             <p>To improve our model’s accuracy, we implemented the following data preprocessing steps:</p><br>
             <ul>
-                <li><strong>Batching:</strong> Our train, test, and validation datasets were divided in smaller batches of 32 images each, reducing memory usage and allowing faster training and faster convergence of our model [19].</li>
-                <li><strong>Normalization of pixels:</strong> The pixel values of each image were normalized by dividing each pixel value by 255, resulting in values within the range [0, 1]. This helped maintain stable gradients and improved computation speed [20].</li>
-                <li><strong>Data prefetching:</strong> Prefetching allowed the model to dynamically load the next batches based on current resources, minimizing wait time between batches. This allowed for faster training and optimized resource usage [21].</li>
-                <li><strong>Data augmentation:</strong> The training dataset was synthetically increased with data augmentation techniques, including random horizontal flips, and slight rotations and slight zooms to reduce overfitting [22].</li>
+                <li><strong>Batching:</strong> Our train, test, and validation datasets were divided in smaller batches of 32 images each, reducing memory usage and allowing faster training and faster convergence of our model [22].</li>
+                <li><strong>Normalization of pixels:</strong> The pixel values of each image were normalized by dividing each pixel value by 255, resulting in values within the range [0, 1]. This helped maintain stable gradients and improved computation speed [23].</li>
+                <li><strong>Data prefetching:</strong> Prefetching allowed the model to dynamically load the next batches based on current resources, minimizing wait time between batches. This allowed for faster training and optimized resource usage [24].</li>
+                <li><strong>Data augmentation:</strong> The training dataset was synthetically increased with data augmentation techniques, including random horizontal flips, and slight rotations and slight zooms to reduce overfitting [25].</li>
             </ul>
         </section>
 
@@ -393,7 +410,7 @@
                         <td>[15] https://www.geeksforgeeks.org/what-is-a-projection-layer-in-the-context-of-neural-networks/</td>
                     </tr>
                     <tr>
-                        <td>[16] C. Bishop, “Pattern Recognition and Machine Learning,” Springer, 2006.</td>
+                        <td>[16] C. Bishop, “Pattern Recognition and Machine Learning,” Springer, 2006, pp. 352–356.</td>
                     </tr>
                     <tr>
                         <td>[17] H. W. Kuhn, “The Hungarian Method for the Assignment Problem,” Naval Research Logistics Quarterly, vol. 2, no. 1–2, pp. 83–97, 1955, doi: 10.1002/nav.3800020109.</td>
@@ -402,16 +419,25 @@
                         <td>[18] M. Ester, H. Kriegel, J. Sander, and X. Xu, “A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise,” in Proc. Int. Conf. on Knowledge Discovery and Data Mining (KDD), 1996, pp. 226–231.</td>
                     </tr>
                     <tr>
-                        <td>[19] “Batch processing: The key to making your neural networks sing,” Tooliqa, https://www.tooli.qa/insights/batch-processing-the-key-to-making-your-neural-networks-sing (accessed Nov. 11, 2024).</td>
+                        <td>[19] P.S. Bradley and U.M. Fayyad, “Refining Initial Points for K-Means Clustering,” Proceedings of the Fifteenth International Conference on Machine Learning, San Francisco, CA, USA, pp. 91–99, 1998.</td>
                     </tr>
                     <tr>
-                        <td>[20] P. Harsh, “Normalization in image preprocessing: Scaling pixel values by 1/255,” Medium, https://medium.com/@patelharsh7458/normalization-in-image-preprocessing-scaling-pixel-values-by-1-255-111b2fa496d4 (accessed Nov. 11, 2024).</td>
+                        <td>[20] J. MacQueen, “Some Methods for Classification and Analysis of Multivariate Observations,” Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability, vol. 1, pp. 281–297, 1967.</td>
                     </tr>
                     <tr>
-                        <td>[21] “Better performance with the tf.data API,” TensorFlow, https://www.tensorflow.org/guide/data_performance (accessed Nov. 11, 2024).</td>
+                        <td>[21] C.M. Bishop, “Pattern Recognition and Machine Learning,” Springer, 2006, pp. 423–457.</td>
                     </tr>
                     <tr>
-                        <td>[22] “Data augmentation,” TensorFlow, https://www.tensorflow.org/tutorials/images/data_augmentation (accessed Nov. 11, 2024).</td>
+                        <td>[22] “Batch processing: The key to making your neural networks sing,” Tooliqa, https://www.tooli.qa/insights/batch-processing-the-key-to-making-your-neural-networks-sing (accessed Nov. 11, 2024).</td>
+                    </tr>
+                    <tr>
+                        <td>[23] P. Harsh, “Normalization in image preprocessing: Scaling pixel values by 1/255,” Medium, https://medium.com/@patelharsh7458/normalization-in-image-preprocessing-scaling-pixel-values-by-1-255-111b2fa496d4 (accessed Nov. 11, 2024).</td>
+                    </tr>
+                    <tr>
+                        <td>[24] “Better performance with the tf.data API,” TensorFlow, https://www.tensorflow.org/guide/data_performance (accessed Nov. 11, 2024).</td>
+                    </tr>
+                    <tr>
+                        <td>[25] “Data augmentation,” TensorFlow, https://www.tensorflow.org/tutorials/images/data_augmentation (accessed Nov. 11, 2024).</td>
                     </tr>
                 </tbody>
             </table>
