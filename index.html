@@ -179,10 +179,19 @@
 
         <section id="results-discussion">
             <h2>Results and Discussion</h2>
-        
+            
             <p>The ResNet model implemented here is inspired by Microsoft's 2015 ResNet architecture, leveraging residual blocks to enable deep learning without gradient vanishing or explosion issues. Each residual block in the model comprises two convolutional layers with batch normalization, connected by skip connections. These skip connections help preserve gradients across layers, allowing for more stable and effective training even in deep networks. The model processes input data through an initial convolution, followed by three residual blocks that increase the number of filters to capture complex features. A bottleneck 1x1 convolution aligns the dimensions between residual blocks to keep the feature map size consistent, which is essential for efficient learning without inflating computational costs. The model concludes with a global average pooling layer, flattening, and a dense softmax layer for classification. The use of sparse categorical cross-entropy as the loss function helps simplify label handling, and the Adam optimizer accelerates convergence with minimal hyperparameter adjustments.</p>
             <br>
-
+            In our best result <b>Seventh Evaluation</b>, we observed the following from the <b>Loss Plot</b> and the <b>Accuracy Plot</b>:
+            <br><br>
+            <p>
+                The loss plot shows that the training loss steadily decreases, indicating that the model is effectively minimizing the loss on the training data. However, the validation loss initially decreases but exhibits fluctuations and a dramatic spike around epoch 40. This suggests potential overfitting, instability in the learning process, or a learning rate issue that caused the model to diverge temporarily on the validation data. 
+            </p>
+            <br>
+            <p>
+                The accuracy plot reveals a growing gap between the training and validation accuracy. The training accuracy improves consistently and approaches 0.9, whereas the validation accuracy plateaus around 0.45 with fluctuations. This indicates overfitting, where the model is memorizing the training data but struggles to generalize to the validation set. The lack of improvement in validation accuracy suggests either insufficient model capacity, suboptimal hyperparameters, or inadequate regularization.
+            </p>
+            <br>
             <h3>Initial Evaluation (0% Accuracy)</h3>
             <p>The first run, with 196 classes and no data augmentation, yielded 0% test accuracy (initally 1% at epoch 1, but decreased with each epoch) and no meaningful precision, recall, or F1 scores across classes. This was largely due to the high class count, which overwhelmed the model, and the computational burden from the 1x1 bottleneck convolution layer, which introduced inefficiencies. The confusion matrix revealed nearly random predictions, indicating severe underfitting. At this stage, the model lacked the ability to generalize effectively, likely due to insufficient gradient flow and difficulty learning distinctive features for each class.</p>
             <br>
@@ -510,7 +519,7 @@
                     </tr>
                     <tr>
                         <td>Mengzhu Ou</td>
-                        <td>Data Augmentation Improvement</td>
+                        <td>Data Augmentation Improvement, Accuracy Plot and Loss Plot generation</td>
                     </tr>
                 </tbody>
             </table>
