@@ -179,6 +179,7 @@
 
         <section id="results-discussion">
             <h2>Results and Discussion</h2>
+            <h3>CNN- Residual Neural Network</h3>
             
             <p>The ResNet model implemented here is inspired by Microsoft's 2015 ResNet architecture, leveraging residual blocks to enable deep learning without gradient vanishing or explosion issues. Each residual block in the model comprises two convolutional layers with batch normalization, connected by skip connections. These skip connections help preserve gradients across layers, allowing for more stable and effective training even in deep networks. The model processes input data through an initial convolution, followed by three residual blocks that increase the number of filters to capture complex features. A bottleneck 1x1 convolution aligns the dimensions between residual blocks to keep the feature map size consistent, which is essential for efficient learning without inflating computational costs. The model concludes with a global average pooling layer, flattening, and a dense softmax layer for classification. The use of sparse categorical cross-entropy as the loss function helps simplify label handling, and the Adam optimizer accelerates convergence with minimal hyperparameter adjustments.</p>
             <br>
@@ -192,48 +193,48 @@
                 The accuracy plot reveals a growing gap between the training and validation accuracy. The training accuracy improves consistently and approaches 0.9, whereas the validation accuracy plateaus around 0.45 with fluctuations. This indicates overfitting, where the model is memorizing the training data but struggles to generalize to the validation set. The lack of improvement in validation accuracy suggests either insufficient model capacity, suboptimal hyperparameters, or inadequate regularization.
             </p>
             <br>
-            <h3>Initial Evaluation (0% Accuracy)</h3>
+            <h4>Initial Evaluation (0% Accuracy)</h4>
             <p>The first run, with 196 classes and no data augmentation, yielded 0% test accuracy (initally 1% at epoch 1, but decreased with each epoch) and no meaningful precision, recall, or F1 scores across classes. This was largely due to the high class count, which overwhelmed the model, and the computational burden from the 1x1 bottleneck convolution layer, which introduced inefficiencies. The confusion matrix revealed nearly random predictions, indicating severe underfitting. At this stage, the model lacked the ability to generalize effectively, likely due to insufficient gradient flow and difficulty learning distinctive features for each class.</p>
             <br>
 
-            <h3>Second Evaluation (13% Accuracy, Reduced Classes)</h3>
+            <h4>Second Evaluation (13% Accuracy, Reduced Classes)</h4>
             <p>Reducing the class count from 196 to 48 improved the model's ability to distinguish between brands, resulting in a 13% accuracy increase. This reduction made the task more manageable, allowing the model to start learning specific brand features, though still at a limited level. Precision and recall scores showed modest improvement, particularly for brands like Aston Martin, Ferrari, and Chevrolet. The confusion matrix demonstrated an increase in correctly predicted classes but still displayed significant misclassifications, suggesting further optimization was needed.</p>
             <br>
 
-            <h3>Third Evaluation (17% Accuracy, Added Data Augmentation)</h3>
+            <h4>Third Evaluation (17% Accuracy, Added Data Augmentation)</h4>
             <p>Adding data augmentation layers led to a 17% test accuracy, as augmentation introduced variability in the training set, allowing the model to generalize better across different lighting, contrast, and orientation conditions. Brands like Audi, BMW, Chrysler, and Ferrari saw further improvement in precision, recall, and F1 scores, indicating that the model was increasingly capable of recognizing brand-specific features. The confusion matrix showed increased clustering along the diagonal, especially for brands with a substantial number of samples, though performance on less-represented brands remained low.</p>
             <br>
 
-            <h3>Fourth Evaluation (32% Accuracy, 30 Epochs)</h3>
+            <h4>Fourth Evaluation (32% Accuracy, 30 Epochs)</h4>
             <p>The model reached 32% accuracy after training for 30 epochs, allowing it to better internalize features across brands. This run saw notable improvements in both precision and recall for brands like Acura, Audi, BMW, Ferrari, and HUMMER. The longer training time allowed the model to recognize distinctive patterns, but brands with limited data still had poor performance, as reflected in the confusion matrix. This indicates a need for techniques to address class imbalance, such as weighted loss functions, to further improve generalization.</p>
             <br>
 
-            <h3>Fifth Evaluation (38% Accuracy, 50 Epochs, Overfitting Observed)</h3>
+            <h4>Fifth Evaluation (38% Accuracy, 50 Epochs, Overfitting Observed)</h4>
             <p>With 50 epochs, the model achieved a 38% test accuracy and an F1 score of 0.37. However, training accuracy reached 70%, suggesting overfitting as the validation accuracy stagnated at 36%. This was confirmed in the confusion matrix, where frequently seen brands showed strong performance while rarer brands remained problematic. The model learned specific details rather than general patterns, which compromised its ability to generalize. Regularization methods, such as dropout or weight decay, may help prevent this overfitting in future runs.</p>
             <br>
 
-            <h3>Sixth Evaluation (24% Accuracy, Extra Activation Layer)</h3>
+            <h4>Sixth Evaluation (24% Accuracy, Extra Activation Layer)</h4>
             <p>Adding a separate activation layer on top of batch normalization within the residual blocks reduced test accuracy to 24% and F1 score to 0.2, indicating degraded model performance. The addition of an extra activation layer disrupted the learning dynamics within residual blocks, as seen in the lower scores across several brands. The confusion matrix shows fewer correct predictions than in the 32% model, particularly for brands previously performing well, like BMW and Ferrari. This outcome suggests that integrating activation functions directly within convolutional layers may provide more stable learning.</p>
             <br>
 
-            <h3>Seventh Evaluation (43% Accuracy, 60 Epochs, Overfitting Observed)</h3>
+            <h4>Seventh Evaluation (43% Accuracy, 60 Epochs, Overfitting Observed)</h4>
             <p>The model achieved 43% accuracy on the test set, with an F1 score of 0.41. While brands like HUMMER and Acura performed relatively well (F1 scores above 60%), rarer brands like Cadillac and Porsche had near-zero performance due to class imbalance. Overfitting was evident, with training accuracy reaching 91%, but validation accuracy lagging at 44.4%. </p>
             <br>
             
-            <h3>Eighth Evaluation (15% Accuracy, 62 Epochs, Hyperparameter Tuning)</h3>
+            <h4>Eighth Evaluation (15% Accuracy, 62 Epochs, Hyperparameter Tuning)</h4>
 
             <p>
                 The model achieved 15% accuracy on the test set, with an F1 score of 0.13. While hyperparameter tuning was applied with learning rate of 1e-3, the model's performance was relatively poor due to limited generalization capabilities. The large gap between training and testing accuracy suggests that further tuning or architectural changes are needed to improve the results.
             </p>
             <br>
 
-            <h3>Ninth Evaluation (27% Accuracy, 62 Epochs, Improved Hyperparameter Tuning)</h3>
+            <h4>Ninth Evaluation (27% Accuracy, 62 Epochs, Improved Hyperparameter Tuning)</h4>
             <p>
                 The model achieved 27% accuracy on the test set, with an F1 score of 0.22. This marks a notable improvement over the eighth evaluation with learning rate of 1e-4, indicating that adjustments in hyperparameter tuning, such as learning rate and batch size, helped the model generalize better. However, the performance still requires significant optimization to handle the complexity of the classification task effectively.
             </p>
             <br><br>
             
-            <h3>Summary Table of Model Runs and Results</h3>
+            <h4>Summary Table of Model Runs and Results</h4>
             
             <table>
                 <thead>
@@ -391,6 +392,178 @@
                     </tr>
                 </tbody>
             </table>
+
+            <h3>GMM- Gausian Mixture Models</h3>
+            
+            <p>Results intro </p>
+            <br>
+            This approach performed signifigantly worse than our ResNet model as our best results, from our <b>Random Forest & SVM</b> only reached about 11% accuracy. We belive this occured because our dataset was too small with too few examples for efffctive clustering. All the aproaches used for this model only ever predicted a few brands.
+            
+            <h4>Summary Table of Model Runs and Results</h4>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Evaluation</th>
+                        <th>Model Changes</th>
+                        <th>Test Accuracy</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1 Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GMM vs K-Means (model_997376_100-iters_150-pca-components)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%201-GMM%20vs%20K-Means/results/model_997376_100-iters_150-pca-components/kmeans_k15/classification_report.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%201-GMM%20vs%20K-Means/results/model_997376_100-iters_150-pca-components/kmeans_k15/confusion_matrix.png" target="_blank">Confusion Matrix Heat Map</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%201-GMM%20vs%20K-Means/results/model_997376_100-iters_150-pca-components/kmeans_k15/cluster_visualization.png" target="_blank">Cluster Visualization</a>
+                        </td>
+                        <td>Kmeans, K= 15</td>
+                        <td>4%</td>
+                        <td>0.04</td>
+                        <td>0.04</td>
+                        <td>0.04</td>
+                    </tr>
+                    <tr>
+                        <td>DBSCAN and Spectral Clustering (model_998281_100-iters_50-pca-components)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%202-DB-Scan%20and%20Spectral%20Clustering/results/model_998281_100-iters_50-pca-components/kmeans_k10/classification_report.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%202-DB-Scan%20and%20Spectral%20Clustering/results/model_998281_100-iters_50-pca-components/kmeans_k10/confusion_matrix.png" target="_blank">Confusion Matrix Heat Map</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%202-DB-Scan%20and%20Spectral%20Clustering/results/model_998281_100-iters_50-pca-components/kmeans_k10/cluster_visualization.png" target="_blank">Cluster Visualization</a>
+                        </td>
+                        <td>Kmeans K = 10</td>
+                        <td>5%</td>
+                        <td>0.03</td>
+                        <td>0.05</td>
+                        <td>0.04</td>
+                    </tr>
+                    <tr>
+                        <td>Hybrid K-Means + GMM (model_998850_100-iters_50-pca-components)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%203-Hybrid%20K-Means%20%2B%20GMM/results/model_998850_100-iters_50-pca-components/hybrid_k10_full/classification_report.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%203-Hybrid%20K-Means%20%2B%20GMM/results/model_998850_100-iters_50-pca-components/hybrid_k10_full/confusion_matrix.png" target="_blank">Confusion Matrix Heat Map</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%203-Hybrid%20K-Means%20%2B%20GMM/results/model_998850_100-iters_50-pca-components/hybrid_k10_full/cluster_visualization.png" target="_blank">Cluster Visualization</a>
+                        </td>
+                        <td>K = 10, covariance type = full</td>
+                        <td>17%</td>
+                        <td>0.02</td>
+                        <td>0.06</td>
+                        <td>0.03</td>
+                    </tr>
+                    <tr>
+                        <td>Random Forest & SVM (model_999191_100-iters_100-pca-components)<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%204-Random%20Forest%20%26%20SVM/results/model_999191_100-iters_100-pca-components/supervised_learning/svm/classification_report.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%204-Random%20Forest%20%26%20SVM/results/model_999191_100-iters_100-pca-components/supervised_learning/svm/confusion_matrix.png" target="_blank">Confusion Matrix Heat Map</a>
+                            </td>
+                        <td>SVM</td>
+                        <td>11%</td>
+                        <td>0.01</td>
+                        <td>0.11</td>
+                        <td>0.02</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>ViT- Vision Transformer</h3>
+            
+            <p>Results intro </p>
+            <br>
+            Overall this was the worst performing model of the three with our best aproach only achiving 7% accuracy. This is likely due to our small dataset and transformers lack translation invariance compared to ResNet. We origianly only achived around 1% accuracy but were able to improve the model by changing the patch size and adjusting the sizes of our images.
+
+            <h4>Image resizing- Models 1007534 and 1004793</h4>
+            <p>There was a mixture in terms of performance for these runs, some increaced in accuracy, others decreaced. However both runs consistantly only predict one class. This could be due to the significant differences in class sizes.</p>
+            <br><br>
+            
+            <h4>Summary Table of Model Runs and Results</h4>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Evaluation</th>
+                        <th>Model Changes</th>
+                        <th>Test Accuracy</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1 Score</th>
+                        <th>Observations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>model_1003948<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitresults/model_1003948/classification_report_20241202_172852.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitresults/model_1003948/confusion_matrix_20241202_172852.png" target="_blank">Confusion Matrix Heat Map</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitresults/model_1003948/Report-1003948.out_accuracy_plot.png" target="_blank">Accuracy Plot</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitresults/model_1003948/Report-1003948.out_loss_plot.png" target="_blank">Loss Plot</a>
+                        </td>
+                        <td>separate depth layer, and data augmentation</td>
+                        <td>1%</td>
+                        <td>0.00</td>
+                        <td>0.01</td>
+                        <td>0.00</td>
+                        <td>only fitting to one brand</td>
+                    </tr>
+                    <tr>
+                        <td>Model 1004710<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitresults/model_1004710/classification_report_20241202_182323.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitresults/model_1004710/confusion_matrix_20241202_182323.png" target="_blank">Confusion Matrix Heat Map</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitresults/model_1004710/Report-1004710.out_accuracy_plot.png" target="_blank">Accuracy Plot</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitresults/model_1004710/Report-1004710.out_loss_plot.png" target="_blank">Loss Plot</a>
+                        </td>
+                        <td>Run tanh activation in last MLP block</td>
+                        <td>7%</td>
+                        <td>0.00</td>
+                        <td>0.07</td>
+                        <td>0.01</td>
+                        <td>Increaces accuracy, only fitting to one brand</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Model 1007534<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitmodels/model_1007534/classification_report_20241203_121828.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitmodels/model_1007534/confusion_matrix_20241203_121828.png" target="_blank">Confusion Matrix Heat Map</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitmodels/model_1007534/Report-1007534.out_accuracy_plot.png" target="_blank">Accuracy Plot</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitmodels/model_1007534/Report-1007534.out_loss_plot.png" target="_blank">Loss Plot</a>
+                        </td>
+                        <td>first dataset, augmentation, Tanh, drop-out, class weights (0.02)</td>
+                        <td>2%</td>
+                        <td>0.00</td>
+                        <td>0.02</td>
+                        <td>0.00</td>
+                        <td>Decreaced accuracy, only fitting to one brand</td>
+                    </tr>
+                    <tr>
+                        <td>Model 1004965<br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitmodels/model_1004965/classification_report_20241202_212211.txt" target="_blank">Classification Report</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitmodels/model_1004965/confusion_matrix_20241202_212211.png" target="_blank">Confusion Matrix Heat Map</a>
+                            <br><br>
+                            <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitmodels/model_1004965/Report-1004965.out_accuracy_plot.png" target="_blank">Accuracy Plot</a>
+                        </td>
+                        <td>resized dataset, patch size 16 x 16</td>
+                        <td>8%</td>
+                        <td>0.01</td>
+                        <td>0.08</td>
+                        <td>0.01</td>
+                        <td>increaced accuracy, mostly fitting to one brand</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
 
@@ -402,8 +575,17 @@
             <p>While basic augmentation is included, additional strategies could further diversify the training data and improve model robustness. Since we already have random rotations, cropping, random contrast and brightness, we could expand these augmentations by incorporating random hue and saturation adjustments or replace brightness/contrast adjustments with a full-color jittering implementation for more comprehensive augmentation.</p>
             <br>
 
-            <h3>Refinement of Model Architecture</h4>
+            <h3>ResNet: Refinement of Model Architecture</h4>
             <p>The ResNetModel with three residual blocks may not have sufficient depth or feature extraction capabilities to handle a complex multi-class classification problem like this. Adding more blocks or using a pretrained ResNet might improve results.</p>
+            <br>
+            
+            <h3>Vit</h3>
+            <p>An additional strategy to improve this model would be to account for our issue of a small dataset by using a pretrained model that had been trained on a much larger dataset.</p>
+            <br>
+
+            <h3>GMM</h3>
+            <p>This model could be improved with improved feature representation byt using deep feature extration techniques such as CNN. </p>
+            
         </section>
 
         <section id="reference">
