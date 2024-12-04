@@ -207,7 +207,7 @@
 
         <section id="results-discussion">
             <h2>Results and Discussion</h2>
-            <h3>CNN- Residual Neural Network</h3>
+            <h3>CNN - Residual Neural Network</h3>
             
             <p>The ResNet model implemented here is inspired by Microsoft's 2015 ResNet architecture, leveraging residual blocks to enable deep learning without gradient vanishing or explosion issues. Each residual block in the model comprises two convolutional layers with batch normalization, connected by skip connections. These skip connections help preserve gradients across layers, allowing for more stable and effective training even in deep networks. The model processes input data through an initial convolution, followed by three residual blocks that increase the number of filters to capture complex features. A bottleneck 1x1 convolution aligns the dimensions between residual blocks to keep the feature map size consistent, which is essential for efficient learning without inflating computational costs. The model concludes with a global average pooling layer, flattening, and a dense softmax layer for classification. The use of sparse categorical cross-entropy as the loss function helps simplify label handling, and the Adam optimizer accelerates convergence with minimal hyperparameter adjustments.</p>
             <br>
@@ -421,7 +421,7 @@
                 </tbody>
             </table>
 
-            <h3>GMM- Gaussian Mixture Models</h3>
+            <h3>GMM - Gaussian Mixture Models</h3>
             <p>This approach performed significantly worse than our ResNet model, as our best results from our <b>Random Forest & SVM</b> only reached about 9% and 11% accuracy, respectively. We believe this occurred because our dataset was too small with too few examples for effective clustering. All the approaches used for this model only ever predicted a few brands.</p>
             <br>
 
@@ -505,16 +505,23 @@
                 </tbody>
             </table>
 
-            <h3>ViT- Vision Transformer</h3>
+            <h3>ViT - Vision Transformer</h3>
             
-            <p>Overall this was the worst performing model of the three with our best approach only achieving 7% accuracy. This is likely due to our small dataset and transformers' lack of translation invariance compared to ResNet. We originally only achieved around 1% accuracy but were able to improve the model by changing the patch size and adjusting the sizes of our images.</p>
+            <p>ViT's performance was the worst among our three models, with the best run only achieving 8% accuracy. This is likely due to our small dataset and Transformers' lack of translation invariance compared to ResNet. Our first runs resulted in 1% accuracy, but we were able to slightly improve the model by changing the patch size and adjusting the sizes of our images. </p>
             <br>
+                
+            <p>However, for all runs, predictions were heavily concentrated on one brand of cars, indicating a consistent failure of the model to generalize. This brand also varied randomly across different runs. Runs also shared the issue of the training and test accuracy dramatically increasing or decreasing after a few epochs, further indicating instability of our model. </p>
 
-            <h4>Image resizing- Models 1007534 and 1004793</h4>
-            <p>There was a mixture in terms of performance for these runs, some increased in accuracy, others decreased. However both runs consistently only predict one class. This could be due to the significant differences in class sizes.</p>
-            <br><br>
+            <br>
+            <h4>Effects of Resized Dataset</h4>
+            <br>
+            <p>The second dataset we tested on, with reduced padding, resulted in conflicting results in the model's perfromance. Updating the dataset with resized images resulted in a slight increase of accuracy compared to the original condensed dataset for certain runs, while other runs also reflected a decrease in test accuracy over time.</p>
+            <br>
             
             <h4>Summary Table of Model Runs and Results</h4>
+            <br>
+
+            <p>All confusion matrices reflect the concentrations of predictions for one class only. </p>
             
             <table>
                 <thead>
@@ -539,12 +546,12 @@
                             <br><br>
                             <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitresults/model_1003948/Report-1003948.out_loss_plot.png" target="_blank">Loss Plot</a>
                         </td>
-                        <td>separate depth layer, and data augmentation</td>
+                        <td>Separate depth layer, and data augmentation</td>
                         <td>1%</td>
                         <td>0.00</td>
                         <td>0.01</td>
                         <td>0.00</td>
-                        <td>only fitting to one brand</td>
+                        <td>Test accuracy decreased over time, indicating that additional depth layer and data augmentation alone struggled to improve performance; all metrics near zero </td>
                     </tr>
                     <tr>
                         <td>Model 1004710<br><br>
@@ -561,7 +568,7 @@
                         <td>0.00</td>
                         <td>0.07</td>
                         <td>0.01</td>
-                        <td>Increases accuracy, only fitting to one brand</td>
+                        <td>Higher accuracy, with training accuracy increasing over time; test accuracy and loss remains constant across epochs, indicating difficulty with generalizing features to unseen data</td>
                     </tr>
                     
                     <tr>
@@ -574,12 +581,12 @@
                             <br><br>
                             <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitmodels/model_1007534/Report-1007534.out_loss_plot.png" target="_blank">Loss Plot</a>
                         </td>
-                        <td>first dataset, augmentation, Tanh, drop-out, class weights (0.02)</td>
+                        <td>Augmentation, Tanh, drop-out, class weights (0.02)</td>
                         <td>2%</td>
                         <td>0.00</td>
                         <td>0.02</td>
                         <td>0.00</td>
-                        <td>Decreased accuracy, only fitting to one brand</td>
+                        <td>Accuracy declined after incorporating class weights; no improvement in any metrics compared to lack of usage of class weights</td>
                     </tr>
                     <tr>
                         <td>Model 1004965<br><br>
@@ -589,12 +596,12 @@
                             <br><br>
                             <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/VIT/vitmodels/model_1004965/Report-1004965.out_accuracy_plot.png" target="_blank">Accuracy Plot</a>
                         </td>
-                        <td>resized dataset, patch size 16 x 16</td>
+                        <td>Resized condensed dataset, patch size 16 x 16</td>
                         <td>8%</td>
                         <td>0.01</td>
                         <td>0.08</td>
                         <td>0.01</td>
-                        <td>Increased accuracy, mostly fitting to one brand</td>
+                        <td>Improvement in accuracy and highest precision among all runs; high rate of false positives, and low rate of actual positives, indicating failure to generalize remains </td>
                     </tr>
                 </tbody>
             </table>
@@ -734,23 +741,23 @@
                 <tbody>
                     <tr>
                         <td>Madeline Liu Hou</td>
-                        <td>Introduction, data-preprocessing/loading, and Methods (ViT) section, data split/merge and data augmentation, ViT model experiments and training </td>
+                        <td><b>Report:</b> Intro, data-preprocessing/loading, Methods (ViT), and Next Steps (ViT). <br><br><b>Code: </b> data split/data augmentation, ViT model experiments and training </td>
                     </tr>
                     <tr>
                         <td>Sophia Isabel Marples Rodriguez</td>
-                        <td>Problem Definition section, Results and Discussion (GMM/ViT), and Next Steps section</td>
+                        <td><b>Report:</b> Problem Definition, Results and Discussion (GMM/ViT)</td>
                     </tr>
                     <tr>
                         <td>Jiya Varma</td>
-                        <td>Methods (ViT) section, ResNet model implementation and training, ViT model implementation, experiments, and training </td>
+                        <td><b>Report:</b> Methods (ViT). <br><br> <b>Code: </b> ResNet model implementation and training. ViT model implementation, experiments, and training </td>
                     </tr>
                     <tr>
                         <td>Nicole Hernandez Canales</td>
-                        <td>Methods section (GMM), Results and Discussion (ResNet: runs 1-4), all files under the GMM directory in the project Github</td>
+                        <td><b>Report:</b> Methods (GMM), Results and Discussion (ResNet: runs 1-4), and Next Steps. <br><br> <b>Code: </b> all files under the GMM directory in the project Github</td>
                     </tr>
                     <tr>
                         <td>Mengzhu Ou</td>
-                        <td>Data Augmentation Improvement, Accuracy Plot and Loss Plot generation, Results and Discussion (ResNet: runs 5-9), Demo Video Editing</td>
+                        <td><b>Report:</b> Results and Discussion (ResNet: runs 5-9), Demo Video Editing <br><br>  <b>Code: </b> Data Augmentation Improvement, Accuracy Plot and Loss Plot generation</td>
                     </tr>
                 </tbody>
             </table>
