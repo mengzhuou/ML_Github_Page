@@ -21,11 +21,13 @@
             <p>Vehicle detection and classification are crucial for traffic control, management, and surveillance, but manual monitoring of traffic footage is inefficient, considering the volume of vehicles in high-traffic areas. Automated vehicle classification systems can address this problem by using machine learning algorithms to detect and categorize vehicles in real-time.</p><br/>
             <h3>Literature Review</h3>
             <p>
-                Automated vehicle classification systems remain difficult to implement, considering issues such as the computational constraints of video processing, the effect of poor weather and environmental conditions, and occlusion [1]. Researchers have focused on improving vehicle detection using machine learning classifiers and deep learning methods, such as CNN-based methods, YOLO, and Vision Transformer (ViT) techniques [1], [2], [3].
+                Automated vehicle classification systems are challenging to implement, considering issues such as the computational constraints of video processing, the effect of poor weather and environmental conditions, and occlusion [1]. Researchers have focused on improving vehicle detection using machine learning classifiers and deep learning methods, such as CNN-based methods, YOLO, and Vision Transformer (ViT) techniques [1], [2], [3].
             </p><br/>
 
             <h3>Dataset Description</h3>
-            <p>We plan to use the Stanford Cars dataset for training our models. The dataset contains 16,185 images across 196 different classes of cars, with annotations for each class describing the make, model, and year of the car. </p><br/>
+            <p>We used the Stanford Cars dataset for training our models. The dataset contains 16,185 images across 196 different classes of cars, with with annotations describing the make, model, and year of the car. </p><br/>
+            <p>We reduced the number of classes from 196 to 48 classes, which involved condensing the dataset by grouping individual car models into broader brand-based categories. Instead of treating each unique model, such as "BMW X3," "BMW X4," or "BMW E30," as separate classes, we grouped all these models under a single class, "BMW." This same approach was applied across all other car brands in the dataset.</p>
+            <br/>
             <li><a href="https://www.kaggle.com/datasets/jessicali9530/stanford-cars-dataset" target="_blank">Dataset Link</a></li>
             </ul>
         </section>
@@ -45,7 +47,7 @@
 
             <p>This section describes the implemented methods for analyzing and classifying the condensed Stanford Cars dataset. Three approaches were explored: a convolutional neural network (CNN) based on a Residual Neural Network architecture, Visual Transformer (ViT) model, and various clustering methods implemented using Gaussian Mixture Models (GMM) and other algorithms.</p>
             <br>
-            <p>We will resize all images to ensure consistent input dimensions, as neural networks require uniform image sizes for layers like convolution. Data augmentation (e.g., rotation, flipping, noise injection and reduction, cropping) will be applied to generate additional images, increasing the dataset size and preventing overfitting [4]. Pixel normalization will standardize lighting conditions and ensure consistent image scales.</p>
+            <p>We will resize all images to ensure consistent input dimensions, as neural networks require uniform image sizes for layers like convolution. Data augmentation (e.g., rotation, flipping, noise injection and reduction, cropping) will be applied to generate additional images, increasing the dataset size and preventing overfitting [4]. Pixel normalization is used to standardize lighting conditions and ensure consistent image scales.</p>
             <br>
             <p>The Vision Transformer (ViT) requires “patches” from the input image, and thus a patch-creation pre-processing step will be required [5]. We plan to train 2 supervised models, Convolution neural networks (CNN) and Vision transformer (ViT), and one unsupervised model, Gaussian Mixture model (GMM), for car classification.</p>
             <br>
@@ -57,9 +59,9 @@
             <br>
 
             <h3>CNN - Residual Neural Network</h3>
-            <p>For our first model implementation, we decided to create a Residual Network Model, or ResNet, based on Microsoft Research's 2015 publication. The core concept of the ResNet model is the residual block, which creates a direct connection from some input to a deeper convolution layer's output, essentially "skipping" computations in between. This is useful in preventing vanishing or exploding gradients that often occur in deeper architectures due to high frequency of multiplications. The skip connections ensure that the gradients are kept secure from becoming too small or large, and allow for an easier flow path during backpropagation so that the network can more effectively adjust the weights. This is effective for producing a generalizable model as it can learn patterns across deeper layers without getting lost [8].</p>
+            <p>For our first model implementation, we decided to create a Residual Network Model, or ResNet, based on Microsoft Research's 2015 publication. The core concept of the ResNet model is the residual block, which creates a direct connection from some input to the output of a deeper convolution layer, essentially "skipping" computations in between. This is useful in preventing vanishing or exploding gradients that often occur in deeper architectures due to high frequency of multiplications. The skip connections ensure that the gradients are kept secure from becoming too small or large, and allow for an easier flow path during backpropagation so that the network can more effectively adjust the weights. This is effective for producing a generalizable model as it can learn patterns across deeper layers without getting lost [8].</p>
             <br>
-            <p>Our residual block contains 2x convolution (with rectified linear unit, or ReLu activation) + batch norm blocks such that the input tensor is added to the result of the second convolution output, and then finally passes through a ReLu activation before being returned.</p>
+            <p>Our residual block contains 2x convolution (with rectified linear unit, or ReLU activation) + batch norm blocks such that the input tensor is added to the result of the second convolution output, and then finally passes through a ReLU activation before being returned.</p>
             <br>
             <p>The current architecture of our ResNet Model is as follows:
             [input tensor -> data augmentation layers -> initial convolution -> batch norm -> activation -> residual block 1 -> residual block 2 -> residual block 3 -> global average pooling -> flatten -> dense layer (with softmax)] [10],[11],[12]</p>
@@ -69,7 +71,7 @@
             <p>We also employ Sparse Categorical cross entropy as our loss function as it allows direct indexing of class labels rather than requiring one-hot encoding, which is helpful for our pipeline as we have a large class size of 48 [14]. Additionally, we opted to use 'adam' (adaptive moment estimator) as our optimizer as it allows more flexibility in adjusting learning rates based on how large/small the gradients are. We have found that 'adam' is a good first choice due to its faster convergence speed and applicability to several problems without extensive need for hyperparameter tuning [13]. However, we plan to run several hyperparameter tuning experiments with various optimizers, learning rates, momentum decay, etc in order to improve our model performance.</p>
             <br><br>
 
-            <h3>GMM - Gaussian Mixture Models</h3>
+            <h3>GMM - Gaussian Mixture Model</h3>
     
             <p>This section explores four distinct approaches undertaken to classify and understand the Stanford Cars dataset using a combination of supervised and unsupervised machine learning methods. The first approach compares the clustering capabilities of Gaussian Mixture Models (GMM) and K-Means, utilizing silhouette scores and other metrics for evaluation. The second approach extends the unsupervised pipeline by introducing DBSCAN and Spectral Clustering to address non-spherical and arbitrarily shaped clusters. The third approach integrates a hybrid K-Means + GMM pipeline to refine clustering by leveraging the strengths of both methods. Finally, the fourth approach combines supervised models—Random Forest and Support Vector Machines (SVM)—with the unsupervised methods, enabling a direct comparison of supervised and unsupervised learning paradigms. Each approach is presented with details on pipeline structure, design choices, and the reasoning behind key decisions.</p>
             <br>
@@ -419,12 +421,10 @@
                 </tbody>
             </table>
 
-            <h3>GMM- Gausian Mixture Models</h3>
-            
-            <p>Results intro </p>
+            <h3>GMM- Gaussian Mixture Models</h3>
+            <p>This approach performed significantly worse than our ResNet model, as our best results from our <b>Random Forest & SVM</b> only reached about 9% and 11% accuracy, respectively. We believe this occurred because our dataset was too small with too few examples for effective clustering. All the approaches used for this model only ever predicted a few brands.</p>
             <br>
-            This approach performed signifigantly worse than our ResNet model as our best results, from our <b>Random Forest & SVM</b> only reached about 11% accuracy. We belive this occured because our dataset was too small with too few examples for efffctive clustering. All the aproaches used for this model only ever predicted a few brands.
-            
+
             <h4>Summary Table of Model Runs and Results</h4>
             
             <table>
@@ -476,7 +476,7 @@
                             <a href="https://github.com/mengzhuou/CS4641_CarClassification/blob/main/GMM/Approach%203-Hybrid%20K-Means%20%2B%20GMM/results/model_998850_100-iters_50-pca-components/hybrid_k10_full/cluster_visualization.png" target="_blank">Cluster Visualization</a>
                         </td>
                         <td>K = 10, covariance type = full</td>
-                        <td>17%</td>
+                        <td>6%</td>
                         <td>0.02</td>
                         <td>0.06</td>
                         <td>0.03</td>
@@ -498,12 +498,11 @@
 
             <h3>ViT- Vision Transformer</h3>
             
-            <p>Results intro </p>
+            <p>Overall this was the worst performing model of the three with our best approach only achieving 7% accuracy. This is likely due to our small dataset and transformers' lack of translation invariance compared to ResNet. We originally only achieved around 1% accuracy but were able to improve the model by changing the patch size and adjusting the sizes of our images.</p>
             <br>
-            Overall this was the worst performing model of the three with our best aproach only achiving 7% accuracy. This is likely due to our small dataset and transformers lack translation invariance compared to ResNet. We origianly only achived around 1% accuracy but were able to improve the model by changing the patch size and adjusting the sizes of our images.
 
             <h4>Image resizing- Models 1007534 and 1004793</h4>
-            <p>There was a mixture in terms of performance for these runs, some increaced in accuracy, others decreaced. However both runs consistantly only predict one class. This could be due to the significant differences in class sizes.</p>
+            <p>There was a mixture in terms of performance for these runs, some increased in accuracy, others decreased. However both runs consistently only predict one class. This could be due to the significant differences in class sizes.</p>
             <br><br>
             
             <h4>Summary Table of Model Runs and Results</h4>
@@ -553,7 +552,7 @@
                         <td>0.00</td>
                         <td>0.07</td>
                         <td>0.01</td>
-                        <td>Increaces accuracy, only fitting to one brand</td>
+                        <td>Increases accuracy, only fitting to one brand</td>
                     </tr>
                     
                     <tr>
@@ -571,7 +570,7 @@
                         <td>0.00</td>
                         <td>0.02</td>
                         <td>0.00</td>
-                        <td>Decreaced accuracy, only fitting to one brand</td>
+                        <td>Decreased accuracy, only fitting to one brand</td>
                     </tr>
                     <tr>
                         <td>Model 1004965<br><br>
@@ -586,7 +585,7 @@
                         <td>0.01</td>
                         <td>0.08</td>
                         <td>0.01</td>
-                        <td>increaced accuracy, mostly fitting to one brand</td>
+                        <td>Increased accuracy, mostly fitting to one brand</td>
                     </tr>
                 </tbody>
             </table>
@@ -597,20 +596,22 @@
         <section id="results-discussion">
             <h2>Next Steps</h2>
             
-            <h3>Enhance Data Augmentation</h4>
             <p>While basic augmentation is included, additional strategies could further diversify the training data and improve model robustness. Since we already have random rotations, cropping, random contrast and brightness, we could expand these augmentations by incorporating random hue and saturation adjustments or replace brightness/contrast adjustments with a full-color jittering implementation for more comprehensive augmentation.</p>
             <br>
 
-            <h3>ResNet: Refinement of Model Architecture</h4>
-            <p>The ResNetModel with three residual blocks may not have sufficient depth or feature extraction capabilities to handle a complex multi-class classification problem like this. Adding more blocks or using a pretrained ResNet might improve results.</p>
-            <br>
-            
-            <h3>Vit</h3>
-            <p>An additional strategy to improve this model would be to account for our issue of a small dataset by using a pretrained model that had been trained on a much larger dataset.</p>
+            <p>For ResNet, increasing depth, using pretrained models like ResNet-50, and applying regularization methods (e.g., dropout, weight decay) can mitigate overfitting. Systematic hyperparameter tuning can further optimize performance.</p>
             <br>
 
-            <h3>GMM</h3>
-            <p>This model could be improved with improved feature representation byt using deep feature extration techniques such as CNN. </p>
+            <p>The Vision Transformer (ViT) can benefit from pretrained models such as ViT-B/16 or DeiT and hybrid architectures combining CNNs with transformers. Addressing dataset noise, experimenting with patch sizes, and balancing classes through oversampling or class weights can also improve results.</p>
+            <br>
+
+            <p>A CNN-ViT hybrid model could combine the strengths of CNNs for local feature extraction and ViTs for capturing global relationships, enhancing the model's ability to classify cars with fine-grained differences. By using a pretrained CNN to extract features and feeding these as patches into a ViT, this approach could improve performance, especially with smaller datasets, while addressing the limitations of standalone CNNs or ViTs.</p>
+            <br>
+
+            <p>For GMM and clustering methods, integrating deep feature extraction from pretrained CNNs and refining the K-Means + GMM pipeline can enhance clustering. Exploring alternative methods like hierarchical clustering or mean-shift could yield better results.</p>
+            <br>
+
+            <p>Dataset expansion with additional car datasets like CompCars, along with balancing techniques like SMOTE, can reduce bias. Improved evaluation through k-fold cross-validation and interpretability tools (e.g., SHAP, Grad-CAM) can refine models. Finally, infrastructure optimizations like mixed-precision training, automated hyperparameter tuning, and deployment-focused pruning can ensure practical applications.</p>
             
         </section>
 
