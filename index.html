@@ -105,7 +105,7 @@
             <h4>Pipeline Structure and Flow</h4>
             <p>
                 This iteration of the pipeline extended clustering capabilities by integrating DBSCAN and Spectral Clustering in addition to GMM and K-Means. The <em>data_loader.py</em> script maintained the preprocessing steps but reduced PCA components to 50 to improve computational efficiency. 
-                The <em>gmm_pipeline.py</em> explored various clustering parameters, such as DBSCAN’s <em>eps</em> and <em>min_samples</em>, and GMM’s covariance types (<em>full</em>, <em>tied</em>, <em>diag</em>, and <em>spherical</em>).
+                The <em>gmm_pipeline.py</em> explored various clustering parameters, such as DBSCAN's <em>eps</em> and <em>min_samples</em>, and GMM's covariance types (<em>full</em>, <em>tied</em>, <em>diag</em>, and <em>spherical</em>).
                 Metrics evaluation and visualization components remained consistent, allowing direct comparisons between clustering methods.
             </p>
             <br>
@@ -149,6 +149,32 @@
             <p>
             Random Forest was chosen for its robustness to overfitting and ability to handle large datasets with minimal parameter tuning, while SVM provided a linear baseline to compare against the more complex clustering results. PCA was extended to 100 components in this approach to ensure that sufficient data variance was preserved for the supervised models, which typically rely on higher-dimensional representations. We maintained the integration of hybrid K-Means + GMM methods to combine the computational simplicity of K-Means with the flexibility of GMM to model overlapping and non-spherical clusters.
             </p>
+            <br>
+            <h3>ViT - Vision Transformer </h3>
+            <h4>Architecture Description </h4>
+            <br>
+            <p>The Vision Transformer (ViT) was introduced by Google Research in 2021 [26] and is an application of the transformer architecture (typically used for NLP tasks) for computer vision use cases, such as image classification. The ViT architecture requires a few data preprocessing steps such as splitting images into fixed-sized chunks, flattening and applying a linear projection to the patches to create patch embeddings, and finally adding 1-d learnable positional embeddings to the patch embeddings. This embedding vector is given to the transformer's encoder as input. The encoder contains alternating multihead self-attention blocks (which captures relationships between image patches) and multi-layer perceptrons (which introduces non-linearity to extract complex information within each patch independently). Specifically, the MLPs use Gaussian Error Linear Unit (GELU) as activation between two layers. Layer normalization is applied before each block and is used to normalize each sample independently across its features. Skip connections, as in the ResNet model, are included after each block.  For our project, we have modified an open source ViT implementation [27] to suit our car classification use case. This architecture follows the aforementioned description followed by a 1-d global average pooling layer and an output MLP classification head. </p>
+            <br>
+            <h4>Experiments and Results</h4>
+            <br>
+            <p>We experimented with patch sizes of 16 x 16 and 8 x 8, expecting the smaller patch size to result in higher accuracy due to containing higher resolution and details of the image. However, we found that the opposite was true. 
+            </p>
+            <br>
+            <p>Overall, the test accuracy from the ViT was significantly lower than the ResNet, despite adding additional data augmentation layers prior to image embedding step. This may be due to the fact that several of our images have large white borders, possibly resulting in patches of purely white pixels that can introduce disruptive noise and positional bias to the encoder. These pixels could also explain the seemingly contradictory increase in accuracy from 8 x 8 to 16 x 16 patches, since by covering more of the image, 16 x 16 are less likely to be dominated by noise.
+            </p>
+            <br>
+            <p>In an attempt to address this issue, we found the median height and width of all images, then resized our images, introducing padding as needed to preserve aspect ratios. This significantly reduced the amount of padding and overall noise in each image. Images were resized to 640 x 424, then halved to 320 x 212 to reduce computational cost. Additionally, we applied a slight compression to 320 x 208 to accommodate the use of 16 x 16 patches. 
+            </p>
+            <br>
+            <p>It should be noted that images for ResNet were resized prior to randomly splitting the dataset into training, testing, and validation sets. As a result, resizing images for ViT and randomly sorting images into the 80-10-10 split led to differences in the distribution of images in each subset. However, these differences are unlikely to have a significant impact on accuracy since the random assignment should ensure that the splits are still representative of the overall dataset. For consistency in future comparisons, resizing the images after performing the 80-10-10 split would avoid this issue entirely.
+            </p>
+            <br>
+            <p>With the updated dataset, we observed a slight improvement in accuracy. However, regardless which dataset it was trained on, the model continued to exhibit the same behavior of predicting the same class for all images. This class would also change on each run. This behavior could be attributed to unbalanced classes in our dataset, with certain classes being overrepresented, leading to potential bias towards overrepresented classes [26]. In order to account for overrepresented classes, we added class weights to our model [26]. Despite this addition, our model continued to predict the same class for each image.
+            </p>
+            <br>
+            <p>Overall, despite our changes, our ViT's accuracy remained low. This could be due to a combination of factors, including the lack of translation invariance in the Transformer architecture and the size of our dataset. In contrast, ResNet is translation invariant due to its use of convolutional layers. Additionally, while ViT's have a better performance using large datasets compared to ResNet, Transformers typically underperform compared to ResNet models using small to medium datasets, since they require larger amounts of data to effectively learn relevant features. It is likely that the scale of our dataset limited the ViT's ability to extract meaningful data. 
+            </p>
+
         </section>
 
         <section id="methods">
@@ -166,9 +192,9 @@
         <section id="methods">
             <h2>Data Pre-Processing/Loading</h2>
     
-            <p>The original Stanford Cars dataset evenly split images between test and train sets but did not include a validation set. To address this, we decided to adjust the distribution to a 80-10-10 split—80% for training, 10% for validation, and 10% for testing, also shifting the majority of images to our training set. We combined each car’s test and train images into a unified set. From this merged set, we randomly divided the images into the new 80-10-10 distribution.</p>
+            <p>The original Stanford Cars dataset evenly split images between test and train sets but did not include a validation set. To address this, we decided to adjust the distribution to a 80-10-10 split—80% for training, 10% for validation, and 10% for testing, also shifting the majority of images to our training set. We combined each car's test and train images into a unified set. From this merged set, we randomly divided the images into the new 80-10-10 distribution.</p>
             <br>
-            <p>To improve our model’s accuracy, we implemented the following data preprocessing steps:</p><br>
+            <p>To improve our model's accuracy, we implemented the following data preprocessing steps:</p><br>
             <ul>
                 <li><strong>Batching:</strong> Our train, test, and validation datasets were divided in smaller batches of 32 images each, reducing memory usage and allowing faster training and faster convergence of our model [22].</li>
                 <li><strong>Normalization of pixels:</strong> The pixel values of each image were normalized by dividing each pixel value by 255, resulting in values within the range [0, 1]. This helped maintain stable gradients and improved computation speed [23].</li>
@@ -678,7 +704,7 @@
         </section>
 
         <section id="contribution">
-            <h2>Midterm Contributions</h2>
+            <h2>Contributions</h2>
             <table>
                 <thead>
                     <tr>
@@ -689,19 +715,19 @@
                 <tbody>
                     <tr>
                         <td>Madeline Liu Hou</td>
-                        <td>Introduction and data-preprocessing/loading section, data split/merge and data augmentation </td>
+                        <td>Introduction, data-preprocessing/loading, and Methods (ViT) section, data split/merge and data augmentation, ViT model experiments and training </td>
                     </tr>
                     <tr>
                         <td>Sophia Isabel Marples Rodriguez</td>
-                        <td>Problem Definition section</td>
+                        <td>Problem Definition section, Results and Discussion (GMM/ViT), Next Steps</td>
                     </tr>
                     <tr>
                         <td>Jiya Varma</td>
-                        <td>Methods section, PowerPoint Slides, ResNet model implementation and training </td>
+                        <td>Methods (ViT) section, ResNet model implementation and training, ViT model implementation, experiments, and training </td>
                     </tr>
                     <tr>
                         <td>Nicole Hernandez Canales</td>
-                        <td>Methods section (GMM part), all files under the GMM directory in the project Github</td>
+                        <td>Methods section (GMM), Results and Discussion (ResNet), all files under the GMM directory in the project Github</td>
                     </tr>
                     <tr>
                         <td>Mengzhu Ou</td>
